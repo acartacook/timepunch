@@ -8,9 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.sql.*;
-import java.io.*;
-import java.util.*;
 
 public class DBTrial {
 	

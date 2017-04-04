@@ -86,7 +86,7 @@ public class MyServer extends AbstractServer {
 
 					try{
 						Timestamp toAdd = new Timestamp(eId);
-					    fout = new FileOutputStream("src/timestamp.ser", true);
+					    fout = new FileOutputStream("Timecard/src/timestamp.ser", true);
 					    oos = new ObjectOutputStream(fout);
 					    oos.writeObject(toAdd);
 					} catch (Exception ex) {
@@ -158,7 +158,7 @@ public class MyServer extends AbstractServer {
 			// TODO Auto-generated method stub
 			ObjectInputStream objectinputstream = null;
 			try {
-				FileInputStream streamIn = new FileInputStream("src/employee.ser");
+				FileInputStream streamIn = new FileInputStream("Timecard/src/employee.ser");
 			    objectinputstream = new ObjectInputStream(streamIn);
 			    Object o = new Object();
 			    while((o = objectinputstream.readObject()) != null){
