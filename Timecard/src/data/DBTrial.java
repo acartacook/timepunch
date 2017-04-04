@@ -117,7 +117,7 @@ public class DBTrial {
 			stmt = con.createStatement();
 			
 			String sql = "SELECT ID FROM timestamp WHERE OUT_TIMESTAMP = '0000-00-00 00:00:00' AND EMPLOYEE_ID = '" +eid+ "'" 
-					+ "AND (datediff('"+t+"',IN_TIMESTAMP) = 0) AND IN_TIMESTAMP < '"+t+"';";
+					+ "AND (datediff('"+t+"',IN_TIMESTAMP) = 0) AND IN_TIMESTAMP < '"+ t +"';";
 			rs = stmt.executeQuery(sql);
 			
 			if (rs.next()){
