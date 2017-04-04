@@ -2,10 +2,11 @@ package ui;
 
 import java.io.*;
 //import java.sql.*;
-import java.util.Date;
+import java.sql.Date;
 
+import data.DBTrial;
 import data.Employee;
-import data.Timestamp;
+import java.sql.Timestamp;
 import ocsf.server.*;
 
 
@@ -69,8 +70,8 @@ public class MyServer extends AbstractServer {
 				if(command.startsWith("#login")) {
 					String data = command.substring(7);
 					int eId = Integer.parseInt(data);
-					
-					if(findEmployee(eId)){
+					DBTrial d = new DBTrial();
+					if(d.findId(eId, "employee") != -1){
 						clientMsg = "Logged in";
 					}
 				}
@@ -81,14 +82,12 @@ public class MyServer extends AbstractServer {
 					String data = command.substring(4);
 					String [] strNum = data.split(",");
 					int eId = Integer.parseInt(strNum[0]);
-					String timestamp = strNum[1];
-					
+					Timestamp timestamp = new Timestamp(Long.parseLong(strNum[1]));
+
 
 					try{
-						Timestamp toAdd = new Timestamp(eId);
-					    fout = new FileOutputStream("Timecard/src/timestamp.ser", true);
-					    oos = new ObjectOutputStream(fout);
-					    oos.writeObject(toAdd);
+						DBTrial d = new DBTrial();
+						clientMsg = d.insertIn(eId, timestamp);
 					} catch (Exception ex) {
 					    ex.printStackTrace();
 					} finally {
@@ -101,7 +100,7 @@ public class MyServer extends AbstractServer {
 							}
 					    } 
 					}
-						clientMsg = "Clocked in";
+						
 				}
 					/*try {
 						con = DriverManager.getConnection(url,user,password);
@@ -124,20 +123,20 @@ public class MyServer extends AbstractServer {
 					System.out.println(data);
 					String [] strNum = data.split(",");
 					int eId = Integer.parseInt(strNum[0]);
-					Date out = new Date(Long.parseLong(strNum[1]));
+					Timestamp out = new Timestamp(Long.parseLong(strNum[1]));
 
 					try{
-						Timestamp toAdd = new Timestamp(eId);
-						toAdd.updateTimestamp(eId, out, null);
-					    clientMsg = "";
+						DBTrial d = new DBTrial();
+						clientMsg = d.setOut(eId, out);
+					     
 					} catch (Exception ex) {
 					    ex.printStackTrace();
 					}
 				}
 				else if(command.startsWith("#PRINTTIMESTAMPS"))
 				{
-					Timestamp t = new Timestamp();
-					t.printAllTimestamps();
+					//Timestamp t = new Timestamp();
+					//t.printAllTimestamps();
 				}
 	  	  		try {
 					client.sendToClient(clientMsg);
@@ -152,67 +151,7 @@ public class MyServer extends AbstractServer {
 				System.out.println("Unrecognized message received: " + msg + " from " + client);
 			}
 	  	}
-		
-		//finds if employee exists for login
-		private boolean findEmployee(int eId) {
-			// TODO Auto-generated method stub
-			ObjectInputStream objectinputstream = null;
-			try {
-				FileInputStream streamIn = new FileInputStream("Timecard/src/employee.ser");
-			    objectinputstream = new ObjectInputStream(streamIn);
-			    Object o = new Object();
-			    while((o = objectinputstream.readObject()) != null){
-			    	Employee e = new Employee();
-			    	e = (Employee) o;
-			    	if(e.getId() == eId){
-			    		return true;
-			    	}
-			    }
-			} catch (Exception e) {
-			    e.printStackTrace();
-			} finally {
-			    if(objectinputstream != null){
-			        try {
-						objectinputstream.close();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			    } 
-			}
-			return false;
-		}
 
-		//returns int location of timestamp instance where out is null
-		private int findTimestamp(int eID) {
-			// TODO Auto-generated method stub
-			ObjectInputStream objectinputstream = null;
-			int at = 1;
-			try {
-				FileInputStream streamIn = new FileInputStream("/Timecard/src/data/timestamp.ser");
-			    objectinputstream = new ObjectInputStream(streamIn);
-			    Object o = new Object();
-			    while((o = objectinputstream.readObject()) != null){
-			    	Timestamp t = new Timestamp();
-			    	t = (Timestamp) o;
-			    	if(t.getOut() == null && t.getEmployeeID() == eID){
-			    		return at;
-			    	}
-			    }
-			} catch (Exception e) {
-			    e.printStackTrace();
-			} finally {
-			    if(objectinputstream != null){
-			        try {
-						objectinputstream.close();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			    } 
-			}
-			return -1;
-		}
 		/**
 		 *  Hook method to inform client of successful connection
 		 *  @throws IOException 

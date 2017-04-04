@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 
 import common.AppendableObjectOutputStream;
 
@@ -29,14 +29,14 @@ public class Timestamp implements Serializable{
 	
 	public Timestamp(int employeeID){
 		this.employeeID = employeeID;
-		in = new Date();
+		in = new Date(0L);
 		out = null;
 		type = "REG";
 	}
 	
 	public Timestamp(int employeeID, String type){
 		this.employeeID = employeeID;
-		in = new Date();
+		in = new Date(0L);
 		out = null;
 		this.type = type;
 	}
