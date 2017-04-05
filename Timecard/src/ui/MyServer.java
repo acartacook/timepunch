@@ -4,6 +4,7 @@ import java.io.*;
 //import java.sql.*;
 import java.util.Date;
 
+import data.DBTrial;
 import data.Employee;
 import data.Timestamp;
 import ocsf.server.*;
@@ -127,9 +128,8 @@ public class MyServer extends AbstractServer {
 					Date out = new Date(Long.parseLong(strNum[1]));
 
 					try{
-						Timestamp toAdd = new Timestamp(eId);
-						toAdd.updateTimestamp(eId, out, null);
-					    clientMsg = "";
+						DBTrial d = new DBTrial();
+						clientMsg = d.setOut(eId, out);
 					} catch (Exception ex) {
 					    ex.printStackTrace();
 					}
