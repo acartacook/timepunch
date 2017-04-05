@@ -28,7 +28,6 @@ public class ValdostaConsole {
 		public ValdostaConsole(String host, int port) {
 		    try {
 		    	client = new ValdostaClient(host, port, this);
-		    	Systsem.out.println("this is a test");
 		    }
 		    catch(IOException exception) {
 		    	System.out.println("ERROR - Can't setup connection, terminating client.");

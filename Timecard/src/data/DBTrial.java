@@ -6,10 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.sql.*;
 import java.io.*;
 import java.util.*;
-import java.util.Date;
+import java.sql.Date;
 
 public class DBTrial {
 	
@@ -108,30 +110,43 @@ public class DBTrial {
 	 * 	if not found inserts a new timestamp with out
 	 * Returns: Updated: if timestamp is found, inserted: if not found and error: if sql has issues
 	 */
-	public String setOut(int eid, Date t){
+	public String setOut(int eid, Timestamp t){
 		try
 		{
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
 			
-			String sql = "UPDATE Timestamp SET OUT_TIMESTAMP="+ t +"WHERE ID = "
-				+"(SELECT ID FROM timestamp WHERE in_timestamp < '"+ t
-				+"' AND OUT_TIMESTAMP = '0000-00-00 00:00:00' AND EMPLOYEE_ID = '" +eid+ "')";
-			
+			String sql = "SELECT ID FROM timestamp WHERE OUT_TIMESTAMP = '0000-00-00 00:00:00' AND EMPLOYEE_ID = '" +eid+ "'" 
+					+ "AND (datediff('"+t+"',IN_TIMESTAMP) = 0) AND IN_TIMESTAMP < '"+ t +"';";
 			rs = stmt.executeQuery(sql);
 			
 			if (rs.next()){
+				int id = rs.getInt("ID");
+				sql = "UPDATE timestamp SET OUT_TIMESTAMP = ? WHERE ID = ?";
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setTimestamp(1, t);
+				pstmt.setInt(2,id);
+				
+				pstmt.executeUpdate();
+				
 				return "Updated";
 			} else {
-				sql = "INSERT INTO Timestamp (`EMPLOYEE_ID`,`OUT_TIMESTAMP`) VALUES ('"+eid+"', '"+ t + "');";
-				rs = stmt.executeQuery(sql);
+				sql = "INSERT INTO timestamp (`EMPLOYEE_ID`,`OUT_TIMESTAMP`) VALUES (?, ?);";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1,eid);
+				pstmt.setTimestamp(2, t);
+				
+				pstmt.executeUpdate();
+				
 				return "Inserted";
 			}
 			
 		}
 		catch(SQLException se)
 		{
-			 return " Sql Error";
+			System.out.println(se);
+			return " Sql Error";
 		}
 	}
 
@@ -139,21 +154,27 @@ public class DBTrial {
 	 * Parameters: Employee id and in timestamp
 	 * Returns: true: if inserted, false: if error
 	 */
-	public boolean insertIn(int eid, Date in){
+	public String insertIn(int eid, Timestamp timestamp){
 		try
 		{
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
 			
-			String sql = "INSERT INTO Timestamp (`EMPLOYEE_ID`,`IN_TIMESTAMP`) VALUES ('"+eid+"', '"+ in + "');";
+			String sql = "INSERT INTO timestamp (`EMPLOYEE_ID`,`IN_TIMESTAMP`) VALUES (?, ?);";
 			
-			rs = stmt.executeQuery(sql);
+			pstmt = con.prepareStatement(sql);
 			
-			return true;
+			pstmt.setInt(1, eid);
+			pstmt.setTimestamp(2, timestamp);
+			
+			pstmt.executeUpdate();
+			
+			return "Clocked in";
 		}
 		catch(SQLException se)
 		{
-			 return false;
+			System.out.println(se);
+			 return "error";
 		}
 	}
 	/*
@@ -197,4 +218,5 @@ public class DBTrial {
 		DBTrial db = new DBTrial();
 		System.out.println(db.findId(1, "employee"));
 	}
+
 }
