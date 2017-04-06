@@ -84,7 +84,7 @@ public class DBTrial {
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
 			
-			String sql = "SELECT ID FROM employee WHERE ID = '"+ id +"'";
+			String sql = "SELECT * FROM department WHERE ID = '"+ id +"'";
 			
 			rs = stmt.executeQuery(sql);
 			
@@ -149,24 +149,71 @@ public class DBTrial {
 			return " Sql Error";
 		}
 	}
-
+	
+	public int getTimeStamp(int eId,Timestamp in){
+		try {
+			con = DriverManager.getConnection(url,user,password);
+		
+			stmt = con.createStatement();
+			
+			String sql = "SELECT ID FROM timestamp WHERE EMPLOYEE_ID = '"+ eId +"' AND IN_TIMESTAMP = '"+ eId +"'";
+			
+			rs = stmt.executeQuery(sql);
+			
+			rs.next();
+			return rs.getInt("ID");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
 	/*
-	 * Parameters: Employee id and in timestamp
-	 * Returns: true: if inserted, false: if error
+	 * Parameters: timestamp id and out timestamp and String Hour type
+	 * Returns: Updated: if timestamp is found and updated
 	 */
-	public String insertIn(int eid, Timestamp timestamp){
+	public String updateTimestamp(int tId,Timestamp in,Timestamp out, String type){
 		try
 		{
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
 			
-			String sql = "INSERT INTO timestamp (`EMPLOYEE_ID`,`IN_TIMESTAMP`) VALUES (?, ?);";
+			String sql = "UPDATE timestamp SET IN_TIMESTAMP = ?, OUT_TIMESTAMP = ?, HOUR_TYPE = ? WHERE ID = ?";
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setTimestamp(1, in);
+			pstmt.setTimestamp(2, out);
+			pstmt.setString(3, type);
+			pstmt.setInt(4,tId);
+			
+			pstmt.executeUpdate();
+			
+			return "Updated";
+		}
+		catch(SQLException se)
+		{
+			System.out.println(se);
+			return " Sql Error";
+		}
+	}
+	/*
+	 * Parameters: Employee id and in timestamp
+	 * Returns: true: if inserted, false: if error
+	 */
+	public String insertIn(int eid, Timestamp timestamp, String type){
+		try
+		{
+			con = DriverManager.getConnection(url,user,password);
+			stmt = con.createStatement();
+			
+			String sql = "INSERT INTO timestamp (`EMPLOYEE_ID`,`IN_TIMESTAMP`,`HOUR_TYPE`) VALUES (?, ?, ?);";
 			
 			pstmt = con.prepareStatement(sql);
 			
 			pstmt.setInt(1, eid);
 			pstmt.setTimestamp(2, timestamp);
-			
+			pstmt.setString(3, type);
 			pstmt.executeUpdate();
 			
 			return "Clocked in";
@@ -178,7 +225,7 @@ public class DBTrial {
 		}
 	}
 	/*
-	 * Parameter(s) dept id: -1 if not loking by department
+	 * Parameter(s) dept id: -1 if not looking by department
 	 * 
 	 * Returns: an Arraylist of all employees(by dept if wanted)
 	 */
@@ -188,7 +235,7 @@ public class DBTrial {
 		{
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
-			String sql  = "SELECT * FROM employee";
+			String sql  = "SELECT * FROM department";
 			if(deptId != -1){
 				sql = sql + "WHERE `DEPT_ID` = '" +deptId+ "'";
 			}

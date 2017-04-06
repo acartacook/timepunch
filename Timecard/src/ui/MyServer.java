@@ -83,11 +83,15 @@ public class MyServer extends AbstractServer {
 					String [] strNum = data.split(",");
 					int eId = Integer.parseInt(strNum[0]);
 					Timestamp timestamp = new Timestamp(Long.parseLong(strNum[1]));
+					String type = "REG";
+					if(strNum.length == 3){
+						type = strNum[2];
+					}
 
 
 					try{
 						DBTrial d = new DBTrial();
-						clientMsg = d.insertIn(eId, timestamp);
+						clientMsg = d.insertIn(eId, timestamp,type);
 					} catch (Exception ex) {
 					    ex.printStackTrace();
 					} finally {
@@ -128,7 +132,6 @@ public class MyServer extends AbstractServer {
 					try{
 						DBTrial d = new DBTrial();
 						clientMsg = d.setOut(eId, out);
-					     
 					} catch (Exception ex) {
 					    ex.printStackTrace();
 					}
