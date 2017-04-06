@@ -24,7 +24,6 @@ public class DBTrial {
 	private  PreparedStatement pstmt= null;
 	private static ResultSet rs;
 	private Scanner input = new Scanner(System.in);
-//	private ArrayList<String> movieGenre = new ArrayList<String>();
 	
 	public int findId(int id, String table)
 	{
