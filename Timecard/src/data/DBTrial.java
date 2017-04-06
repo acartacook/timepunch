@@ -168,6 +168,32 @@ public class DBTrial {
 		return -1;
 	}
 	
+	public ArrayList<Integer> getTimediffs(String type){
+		ArrayList<Integer> retArray = new ArrayList<Integer>;
+		try {
+			con = DriverManager.getConnection(url,user,password);
+		
+			stmt = con.createStatement();
+			
+			String sql = "SELECT TIMEDIFF(OUT_TIMESTAMP,IN_TIMESTAMP) AS diff FROM timestamp";
+			
+			if(type != ""){
+				sql += " WHERE HOUR_TYPE = '" + type +"'";
+			}
+			
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()){
+				retArray.add(rs.getInt("diff"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	/*
 	 * Parameters: timestamp id and out timestamp and String Hour type
 	 * Returns: Updated: if timestamp is found and updated
@@ -234,7 +260,7 @@ public class DBTrial {
 		{
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
-			String sql  = "SELECT * FROM department";
+			String sql  = "SELECT * FROM employee";
 			if(deptId != -1){
 				sql = sql + "WHERE `DEPT_ID` = '" +deptId+ "'";
 			}
@@ -258,6 +284,32 @@ public class DBTrial {
 			 return null;
 		}
 		return e;
+	}
+	public ArrayList<Department> getDepartments(){
+		ArrayList<Department> d = new ArrayList<Department>();
+		try
+		{
+			con = DriverManager.getConnection(url,user,password);
+			stmt = con.createStatement();
+			String sql  = "SELECT * FROM department";
+
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				Department at = new Department();
+				at.setId(rs.getInt("ID"));
+				at.setManagerID(rs.getInt("MANAGER_ID"));
+				at.setName(rs.getString("NAME"));
+				
+				d.add(at);
+			}
+		}
+		catch(SQLException se)
+		{
+			 return null;
+		}
+		return d;
 	}
 	public static void main(String[] args)
 	{
