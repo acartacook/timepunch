@@ -63,7 +63,8 @@ public class DBTrial {
 			{
 				Employee e = new Employee();
 				e.setId(rs.getInt("ID"));
-				e.setName(rs.getString("FNAME") + " " + rs.getString("LNAME"));
+				e.setFirstName(rs.getString("FNAME"));
+				e.setLastName(rs.getString("LNAME"));
 				e.setDeptID(rs.getInt("DEPT_ID"));
 				e.setPay(rs.getDouble("PAY"));
 				e.setVacationHours(rs.getDouble("VACATION_HOURS"));
@@ -168,8 +169,8 @@ public class DBTrial {
 		return -1;
 	}
 	
-	public ArrayList<Integer> getTimediffs(String type){
-		ArrayList<Integer> retArray = new ArrayList<Integer>;
+	public ArrayList<Timestamp> getTimediffs(String type, int eId){
+		ArrayList<Timestamp> retArray = new ArrayList<Timestamp>();
 		try {
 			con = DriverManager.getConnection(url,user,password);
 		
@@ -179,12 +180,19 @@ public class DBTrial {
 			
 			if(type != ""){
 				sql += " WHERE HOUR_TYPE = '" + type +"'";
+			} 
+			if(eId != -1){
+				if(type == ""){
+					sql += "WHERE EMPLOYEE_ID = '" + eId + "'";
+				} else {
+					sql += "AND EMPLOYEE_ID = '" + eId + "'";
+				}
 			}
 			
 			rs = stmt.executeQuery(sql);
 			
 			while(rs.next()){
-				retArray.add(rs.getInt("diff"));
+				retArray.add(rs.getTimestamp("diff"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -271,7 +279,8 @@ public class DBTrial {
 			{
 				Employee at = new Employee();
 				at.setId(rs.getInt("ID"));
-				at.setName(rs.getString("FNAME") + " " + rs.getString("LNAME"));
+				at.setFirstName(rs.getString("FNAME") + " ");
+				at.setLastName(rs.getString("LNAME"));
 				at.setDeptID(rs.getInt("DEPT_ID"));
 				at.setPay(rs.getDouble("PAY"));
 				at.setVacationHours(rs.getDouble("VACATION_HOURS"));
@@ -310,6 +319,31 @@ public class DBTrial {
 			 return null;
 		}
 		return d;
+	}
+	public String addEmployee(String first_name,String last_name, double pay, double vacationHours, int deptId){
+		try
+		{
+			con = DriverManager.getConnection(url,user,password);
+			stmt = con.createStatement();
+			
+			String sql = "INSERT INTO employee (`FNAME`,`LNAME`,`PAY`,`VACATION_HOUR`,`DEPT_ID`) VALUES (?, ?, ?, ?, ?);";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, first_name);
+			pstmt.setString(2, last_name);
+			pstmt.setDouble(3, pay);
+			pstmt.setDouble(4, vacationHours);
+			pstmt.setInt(5, deptId);
+			pstmt.executeUpdate();
+			
+			return "Added";
+		}
+		catch(SQLException se)
+		{
+			System.out.println(se);
+			 return "error";
+		}
 	}
 	public static void main(String[] args)
 	{
