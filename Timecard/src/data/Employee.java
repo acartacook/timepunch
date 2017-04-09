@@ -6,7 +6,8 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class Employee implements Serializable {
 
-	private String name;
+	private String first_name;
+	private String last_name;
 	private int id;
 	private double pay;
 	private int deptID;
@@ -14,30 +15,31 @@ public class Employee implements Serializable {
 	
 	public Employee()
 	{
-		name = "";
+		first_name = "";
+		setLastName("");
 		id = 0;
 		pay = 0.0;
 		deptID = 0;
 		vacationHours = 0.0;
 	}
 	
-	public Employee(String name, int id, double pay,int deptID, double vacationHours)
+	public Employee(String first_name,String last_name, int id, double pay,int deptID, double vacationHours)
 	{
-		this.name = name;
+		this.first_name = first_name;
 		this.id = id;
 		this.pay = pay;
 		this.deptID = deptID;
 		this.vacationHours = vacationHours;
 	}
 	
-	public void setName(String name)
+	public void setFirstName(String first_name)
 	{
-		this.name = name;
+		this.first_name = first_name;
 	}
 	
-	public String getName()
+	public String getFirstName()
 	{
-		return this.name;
+		return this.first_name;
 	}
 	
 	public void setId(int id)
@@ -78,5 +80,13 @@ public class Employee implements Serializable {
 	public  double getVacationHours()
 	{
 		return this.vacationHours;
+	}
+
+	public String getLastName() {
+		return last_name;
+	}
+
+	public void setLastName(String last_name) {
+		this.last_name = last_name;
 	}
 }
