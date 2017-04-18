@@ -47,7 +47,7 @@ public class DBTrial {
 		}
 		return -1;
 	}
-	
+
 	public Employee getEmployee(int id)
 	{
 		try
@@ -104,6 +104,53 @@ public class DBTrial {
 		return null;
 	}
 
+		
+	public Timestamps getTimeStamp(int eId,Timestamp in){
+		Timestamps t = new Timestamps();
+		try {
+			con = DriverManager.getConnection(url,user,password);
+		
+			stmt = con.createStatement();
+			
+			String sql = "SELECT ID FROM timestamp WHERE EMPLOYEE_ID = '"+ eId +"' AND IN_TIMESTAMP = '"+ eId +"'";
+			
+			rs = stmt.executeQuery(sql);
+			
+			rs.next();
+			t.setID(rs.getInt("ID"));
+			t.setEmployeeID(rs.getInt("EMPLOYEE_ID"));
+
+
+			return t;
+
+		} catch (SQLException e) {
+			return t;
+		}
+	}
+	
+	public Timestamps getOutTimeStamp(int eId,Timestamp out){
+		Timestamps t = new Timestamps();
+		try {
+			con = DriverManager.getConnection(url,user,password);
+		
+			stmt = con.createStatement();
+			
+			String sql = "SELECT ID FROM timestamp WHERE EMPLOYEE_ID = '"+ eId +"' AND OUT_TIMESTAMP = '"+ out +"'";
+			
+			rs = stmt.executeQuery(sql);
+			
+			rs.next();
+			t.setID(rs.getInt("ID"));
+			t.setEmployeeID(rs.getInt("EMPLOYEE_ID"));
+
+
+			return t;
+
+		} catch (SQLException e) {
+			return t;
+		}
+	}
+
 	/*
 	 * Parameters: Employee id and out timestamp
 	 * Does:finds timestamp where out is null and in is set and updates.
@@ -116,7 +163,7 @@ public class DBTrial {
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
 			
-			String sql = "SELECT ID FROM timestamp WHERE OUT_TIMESTAMP = '0000-00-00 00:00:00' AND EMPLOYEE_ID = '" +eid+ "'" 
+			String sql = "SELECT ID FROM timestamp WHERE OUT_TIMESTAMP = '1970-01-01 00:00:01' AND EMPLOYEE_ID = '" +eid+ "'" 
 					+ "AND (datediff('"+t+"',IN_TIMESTAMP) = 0) AND IN_TIMESTAMP < '"+ t +"';";
 			rs = stmt.executeQuery(sql);
 			
@@ -149,26 +196,7 @@ public class DBTrial {
 			return " Sql Error";
 		}
 	}
-	
-	public int getTimeStamp(int eId,Timestamp in){
-		try {
-			con = DriverManager.getConnection(url,user,password);
-		
-			stmt = con.createStatement();
-			
-			String sql = "SELECT ID FROM timestamp WHERE EMPLOYEE_ID = '"+ eId +"' AND IN_TIMESTAMP = '"+ eId +"'";
-			
-			rs = stmt.executeQuery(sql);
-			
-			rs.next();
-			return rs.getInt("ID");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return -1;
-	}
-	
+
 	public ArrayList<Timestamp> getTimediffs(String type, int eId){
 		ArrayList<Timestamp> retArray = new ArrayList<Timestamp>();
 		try {
@@ -195,10 +223,8 @@ public class DBTrial {
 				retArray.add(rs.getTimestamp("diff"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return null;
 		}
-		
 		return null;
 	}
 	
