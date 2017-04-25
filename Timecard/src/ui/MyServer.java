@@ -9,6 +9,12 @@ import data.Employee;
 import java.sql.Timestamp;
 import ocsf.server.*;
 
+/*************************************************
+!!!!!!!!!!!!!!!!!!!!!IMPORTANT!!!!!!!!!!!!!!!!!!!!
+
+Timestamp refers to the java.sql object of Timestamp
+Timestamps with an s refers to our java object Timestamps
+*************************************************/
 
 public class MyServer extends AbstractServer {
 
