@@ -8,7 +8,7 @@ public class Timestamps{
 	private Timestamp in;
 	private Timestamp out;
 	private String type;
-	
+
 	public Timestamps(){
 		id = -1;
 		employeeID = 0;
@@ -16,7 +16,7 @@ public class Timestamps{
 		out = null;
 		type = "REG";
 	}
-	
+
 	public Timestamps(int employeeID){
 		id = -1;
 		this.employeeID = employeeID;
@@ -24,7 +24,7 @@ public class Timestamps{
 		out = null;
 		type = "REG";
 	}
-	
+
 	public Timestamps(int employeeID, String type){
 		id = -1;
 		this.employeeID = employeeID;
@@ -32,21 +32,21 @@ public class Timestamps{
 		out = null;
 		this.type = type;
 	}
-	
+
 	public int getEmployeeID() {
 		return employeeID;
 	}
 	public void setEmployeeID(int employeeID) {
 		this.employeeID = employeeID;
 	}
-	
+
 	public Timestamp getIn() {
 		return in;
 	}
 	public void setIn(Timestamp in) {
 		this.in = in;
 	}
-	
+
 	public Timestamp getOut() {
 		return out;
 	}
@@ -67,5 +67,11 @@ public class Timestamps{
 	}
 	public void setID(int id) {
 		this.id = id;
+	}
+
+	//timestamp in and out will need to be formatted
+	public String toString(){
+		return this.id + "|" + this.in + "|" + this.out  + "|"
+		+ this.type + "|" + this.employeeID;
 	}
 }
