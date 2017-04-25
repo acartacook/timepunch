@@ -11,15 +11,15 @@ import ocsf.server.*;
 
 
 public class MyServer extends AbstractServer {
-	
+
 	/*private final String url = "jdbc:mysql://localhost:3306/timepunch";
 	private final String user = "root";
 	private final String password = "root";
-	
+
 	private  Connection con = null;
 	private  Statement stmt = null;
 	private  PreparedStatement pstmt= null;*/
-	
+
 	// Class variables *************************************************
 		/**
 	   	  The default port to listen on.
@@ -48,7 +48,7 @@ public class MyServer extends AbstractServer {
 		@SuppressWarnings("null")
 		public void handleMessageFromClient (Object msg, ConnectionToClient client) {
 			//ResultSet rs;
-			
+
 			// Check to see if msg is a String
 			if(msg instanceof String) {
 				System.out.println(msg);
@@ -57,7 +57,7 @@ public class MyServer extends AbstractServer {
 				String command = (String)msg;
 				ObjectOutputStream oos = null;
 				FileOutputStream fout = null;
-				
+
 				if(command.equals("#close")) {
 					try {
 						client.close();
@@ -75,10 +75,10 @@ public class MyServer extends AbstractServer {
 						clientMsg = "Logged in";
 					}
 				}
-//This command should insert data into the database. The timestamp database.				
+//This command should insert data into the database. The timestamp database.
 				else if(command.startsWith("#IN"))
 				{
-					
+
 					String data = command.substring(4);
 					String [] strNum = data.split(",");
 					int eId = Integer.parseInt(strNum[0]);
@@ -102,25 +102,25 @@ public class MyServer extends AbstractServer {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-					    } 
+					    }
 					}
-						
+
 				}
 					/*try {
 						con = DriverManager.getConnection(url,user,password);
 						String sql = "INSERT INTO timestamp (EMPLOYEE_ID, IN_TIMESTAMP) Values (?,?)" ;
 						pstmt = con.prepareStatement(sql);
-						
+
 						pstmt.setInt(1, eId);
 						pstmt.setString(2,timestamp);
-						pstmt.executeUpdate();	
+						pstmt.executeUpdate();
 						clientMsg = "Clocked in";
 					}
 					catch (SQLException e ) {
 						clientMsg = "Error";
 						e.printStackTrace();
 					}*/
-				//This command should insert data into the database. The timestamp database.								
+				//This command should insert data into the database. The timestamp database.
 				else if(command.startsWith("#OUT"))
 				{
 					String data = command.substring(5);
@@ -141,14 +141,14 @@ public class MyServer extends AbstractServer {
 					//Timestamp t = new Timestamp();
 					//t.printAllTimestamps();
 				}
-	  	  		try {
+	  	  try {
 					client.sendToClient(clientMsg);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	  		}
-			
+
 			// Else, message is not recognized!
 			else {
 				System.out.println("Unrecognized message received: " + msg + " from " + client);
@@ -157,7 +157,7 @@ public class MyServer extends AbstractServer {
 
 		/**
 		 *  Hook method to inform client of successful connection
-		 *  @throws IOException 
+		 *  @throws IOException
 		 */
 		protected void clientConnected(ConnectionToClient client) {
 			String msg = "Successful connection for client: " + client.getInetAddress();
