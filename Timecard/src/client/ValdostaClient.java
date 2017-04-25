@@ -13,6 +13,7 @@ public class ValdostaClient extends AbstractClient {
 		 * Reference to the client UI
 		 */
 		ValdostaConsole clientUI;
+		
 
 		// Constructors ****************************************************
 		/**
