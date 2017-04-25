@@ -47,7 +47,11 @@ public class DBTrial {
 		}
 		return -1;
 	}
-
+	/*
+	 * Parameters: employee id
+	 * Returns: Employee Object
+	 * Use: for login
+	 */
 	public Employee getEmployee(int id)
 	{
 		try
@@ -77,7 +81,10 @@ public class DBTrial {
 		}
 		return null;
 	}
-
+	/*
+	 * Parameters: department id
+	 * Returns: department object
+	 */
 	public Department getDepartment(int id){
 		try
 		{
@@ -104,7 +111,11 @@ public class DBTrial {
 		return null;
 	}
 
-
+	/*
+	 * Parameters: Employee id and in timestamp
+	 * Returns: timestamps object where eid and timestamp = specified
+	 * FOR: updateTimestamp
+	 */
 	public Timestamps getTimeStamp(int eId,Timestamp in){
 		Timestamps t = new Timestamps();
 		try {
@@ -127,7 +138,11 @@ public class DBTrial {
 			return t;
 		}
 	}
-
+	/*
+	 * Parameters: Employee id and out timestamp
+	 * Returns: timestamps object where eid and timestamp = specified
+	 * FOR: updateTimestamp
+	 */
 	public Timestamps getOutTimeStamp(int eId,Timestamp out){
 		Timestamps t = new Timestamps();
 		try {
@@ -196,7 +211,11 @@ public class DBTrial {
 			return " Sql Error";
 		}
 	}
-
+	/*
+	 * Parameters: Type and/or eId
+	 * Returns: ArrayList of total hours for each timestamp of specified type and/or from specific employee
+	 * FOR: timeCalculations.java
+	 */
 	public ArrayList<Timestamp> getTimediffs(String type, int eId){
 		ArrayList<Timestamp> retArray = new ArrayList<Timestamp>();
 		try {
@@ -231,6 +250,7 @@ public class DBTrial {
 	/*
 	 * Parameters: timestamp id and out timestamp and String Hour type
 	 * Returns: Updated: if timestamp is found and updated
+	 * Use in conjunction with getTimestamp and getOutTimeStamp
 	 */
 	public String updateTimestamp(int tId,Timestamp in,Timestamp out, String type){
 		try
@@ -257,8 +277,8 @@ public class DBTrial {
 		}
 	}
 	/*
-	 * Parameters: Employee id and in timestamp
-	 * Returns: true: if inserted, false: if error
+	 * Parameters: Employee id and in timestamp and type
+	 * Returns: clocked in: if inserted, error: if error
 	 */
 	public String insertIn(int eid, Timestamp timestamp, String type){
 		try
@@ -320,6 +340,10 @@ public class DBTrial {
 		}
 		return e;
 	}
+	/*
+	 * Parameters: X
+	 * Returns: list of all departments
+	 */
 	public ArrayList<Department> getDepartments(){
 		ArrayList<Department> d = new ArrayList<Department>();
 		try
@@ -346,6 +370,10 @@ public class DBTrial {
 		}
 		return d;
 	}
+	/*
+	 * Parameters: everything you need for employee
+	 * Returns: "Added" or "error"
+	 */
 	public String addEmployee(String first_name,String last_name, double pay, double vacationHours, int deptId){
 		try
 		{
@@ -361,6 +389,63 @@ public class DBTrial {
 			pstmt.setDouble(3, pay);
 			pstmt.setDouble(4, vacationHours);
 			pstmt.setInt(5, deptId);
+			pstmt.executeUpdate();
+
+			return "Added";
+		}
+		catch(SQLException se)
+		{
+			System.out.println(se);
+			 return "error";
+		}
+	}
+	/*
+	 * Parameters: everything you need for department, class is either indirect or production
+	 * Returns: "Added" or "error"
+	 */
+	public String addDepartment(String name, String location, String class, int manager_id){
+		try
+		{
+			con = DriverManager.getConnection(url,user,password);
+			stmt = con.createStatement();
+
+			String sql = "INSERT INTO department (`NAME`,`LOCATION`,`CLASS`,`MANAGER_ID`) VALUES (?, ?, ?, ?);";
+
+			pstmt = con.prepareStatement(sql);
+
+			pstmt.setString(1, name);
+			pstmt.setString(2, location);
+			pstmt.setString(3, class);
+			pstmt.setInt(4, manager_id);
+			pstmt.executeUpdate();
+
+			return "Added";
+		}
+		catch(SQLException se)
+		{
+			System.out.println(se);
+			 return "error";
+		}
+	}
+	/*
+	 * Parameters: everything you need for timestamp
+	 * Returns: "Added" or "error"
+	 * Use: for manager to add new timestamp
+	 */
+	public String addTimestamp(int eid, Timestamp in, Timestamp out, String type){
+		try
+		{
+			con = DriverManager.getConnection(url,user,password);
+			stmt = con.createStatement();
+
+			String sql = "INSERT INTO timestamp (`EMPLOYEE_ID`,`IN_TIMESTAMP`,`OUT_TIMESTAMP`,`HOUR_TYPE`) VALUES (?, ?, ?, ?);";
+
+			pstmt = con.prepareStatement(sql);
+
+			pstmt.setInt(1, eid);
+			pstmt.setTimestamp(2, in);
+			pstmt.setTimestamp(3, out);
+			pstmt.setString(4, type);
 			pstmt.executeUpdate();
 
 			return "Added";
