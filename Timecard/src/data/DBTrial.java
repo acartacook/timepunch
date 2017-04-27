@@ -32,7 +32,7 @@ public class DBTrial {
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
 
-			String sql = "SELECT ID FROM"+ table +" WHERE ID = '"+ id +"'";
+			String sql = "SELECT ID FROM "+ table +" WHERE ID = '"+ id +"'";
 
 			rs = stmt.executeQuery(sql);
 
@@ -403,7 +403,7 @@ public class DBTrial {
 	 * Parameters: everything you need for department, class is either indirect or production
 	 * Returns: "Added" or "error"
 	 */
-	public String addDepartment(String name, String location, String class, int manager_id){
+	public String addDepartment(String name, String location, String classy, int manager_id){
 		try
 		{
 			con = DriverManager.getConnection(url,user,password);
@@ -415,7 +415,7 @@ public class DBTrial {
 
 			pstmt.setString(1, name);
 			pstmt.setString(2, location);
-			pstmt.setString(3, class);
+			pstmt.setString(3, classy);
 			pstmt.setInt(4, manager_id);
 			pstmt.executeUpdate();
 

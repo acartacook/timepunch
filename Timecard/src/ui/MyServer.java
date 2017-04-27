@@ -55,6 +55,13 @@ public class MyServer extends AbstractServer {
 		public void handleMessageFromClient (Object msg, ConnectionToClient client) {
 			//ResultSet rs;
 
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
 			// Check to see if msg is a String
 			if(msg instanceof String) {
 				System.out.println(msg);

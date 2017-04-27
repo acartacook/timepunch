@@ -1,14 +1,11 @@
 package data;
 
-import java.io.Serializable;
-
-@SuppressWarnings("serial")
-public class Department implements Serializable{
+public class Department{
 	private String name;
 	private int id;
 	private int managerID;
 	private String location;
-	private String class;
+	private String classy;
 
 	public Department(){
 		name = "";
@@ -22,15 +19,15 @@ public class Department implements Serializable{
 		this.id = id;
 		this.managerID = managerID;
 		this.location = "Valdosta";
-		this.class = "Production";
+		this.classy = "Production";
 	}
 
-	public Department(String name, int id, int managerID, String location, String class){
+	public Department(String name, int id, int managerID, String location, String classy){
 		this.name = name;
 		this.id = id;
 		this.managerID = managerID;
 		this.location = location;
-		this.class = class;
+		this.classy = classy;
 	}
 
 	public String getName() {
@@ -53,20 +50,20 @@ public class Department implements Serializable{
 	public void setManagerID(int managerID) {
 		this.managerID = managerID;
 	}
-	public String getLocation() {
+	public int getLocation() {
 		return managerID;
 	}
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public String getClass() {
-		return class;
+	public String getclassy() {
+		return classy;
 	}
-	public void setClass(String class) {
-		this.class = class;
+	public void setclassy(String classy) {
+		this.classy = classy;
 	}
 	public String toString(){
 		return this.id + "|" + this.name + "|" + this.managerID  + "|"
-		+ this.location + "|" + this.class;
+		+ this.location + "|" + this.classy;
 	}
 }

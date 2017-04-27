@@ -1,8 +1,2 @@
-/client/
-/common/
-/data/
-/department.ser
-/employee.ser
-/ocsf/
-/timestamp.ser
 /ui/
+/data/
