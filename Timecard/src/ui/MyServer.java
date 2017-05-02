@@ -96,6 +96,7 @@ public class MyServer extends AbstractServer {
 					String [] strNum = data.split(",");
 					int eId = Integer.parseInt(strNum[0]);
 					Timestamp timestamp = new Timestamp(Long.parseLong(strNum[1]));
+					
 					String type = "REG";
 					if(strNum.length == 3){
 						type = strNum[2];

@@ -11,12 +11,17 @@ public class ValdostaConsole {
 		 * The default port to connect on.
 		 */
 		final public static int DEFAULT_PORT = 5555;
+		
+		public static boolean connected;
+		
+		public static String id;
 
 		// Instance variables **********************************************
 		/**
 		 * The instance of the client that created this ConsoleChat.
 		 */
 		ValdostaClient client;
+		
 
 		// Constructors ****************************************************
 		/**
@@ -44,15 +49,24 @@ public class ValdostaConsole {
 			try {
 				BufferedReader fromConsole = new BufferedReader(new InputStreamReader(System.in));
 				String message;
-
+				client.handleMessageFromClientUI("#connect", id);
+				message = fromConsole.readLine();
+				client.handleMessageFromClientUI(login(message), id);
 				while (true) {
 					message = fromConsole.readLine();
-					client.handleMessageFromClientUI(message);
+					client.handleMessageFromClientUI(message,id);
 				}
 			}
 			catch (Exception ex) {
 				System.out.println("ERROR - Unexpected error while reading from console.");
 			}
+		}
+		private String login(String msg) {
+			if(msg.substring(0) == "#"){
+				return "#needlogin";
+			} 
+			id = msg;
+			return "#login " + msg;
 		}
 
 		/**

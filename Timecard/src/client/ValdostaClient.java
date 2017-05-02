@@ -5,6 +5,7 @@ import data.Employee;
 import ocsf.client.AbstractClient;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 //This is my test
 public class ValdostaClient extends AbstractClient {
 	
@@ -26,7 +27,7 @@ public class ValdostaClient extends AbstractClient {
 		public ValdostaClient(String host, int port, ValdostaConsole clientUI) throws IOException {
 			super(host, port);
 			this.clientUI = clientUI;
-			clientUI.display("Type '#connect' to connect to server");
+			clientUI.display("Welcome Login now with id");
 			//openConnection();
 		}
 
@@ -49,9 +50,10 @@ public class ValdostaClient extends AbstractClient {
 		 * @param message The message from the UI.
 		 * @throws InterruptedException
 		 */
-		public String handleMessageFromClientUI(String message) throws InterruptedException {
+		public String handleMessageFromClientUI(String message, String id) throws InterruptedException {
 			// See if client wants to connect
 			if(message.equals("#connect")) {
+				if(!isConnected()){
 			      try {
 			        this.openConnection();
 					clientUI.display("Connection open.");
@@ -60,6 +62,44 @@ public class ValdostaClient extends AbstractClient {
 			    	  clientUI.display("ERROR - Cannot establish connection with server" );
 			    	  return "";
 			      }
+				}
+				return "";
+			}
+			else if(message.equals("in")){
+				if(this.isConnected()){
+					try {
+						sendToServer("#IN " + id +"," + System.currentTimeMillis());
+					} catch (IOException e) {
+						return "error";
+					}
+				} 
+				else {
+					//print to textfile and try to reconnect
+				}
+			}
+			else if(message.equals("out")){
+				if(this.isConnected()){
+					try {
+						sendToServer("#OUT " + id +"," + System.currentTimeMillis());
+					} catch (IOException e) {
+						return "error";
+					}
+				} 
+				else {
+					//print to textfile
+					try {
+				        this.openConnection();
+				     }
+				     catch(IOException e) {
+				    	  //save to txt file here
+				    	  return "No connection saved locally";
+				     }
+					try {
+						sendToServer("#OUT " + id +"," + System.currentTimeMillis());
+					} catch (IOException e) {
+						return "error";
+					}
+				}
 			}
 			// Close the connect, but don't quit.
 			else if(message.equals("#close")) {
@@ -72,6 +112,16 @@ public class ValdostaClient extends AbstractClient {
 			        clientUI.display("ERROR - Cannot close connection.");
 				}
 			}
+			if(message.equals("#connect")) {
+			      try {
+			        this.openConnection();
+					clientUI.display("Connection open.");
+			      }
+			      catch(IOException e) {
+			    	  clientUI.display("ERROR - Cannot establish connection with server" );
+			    	  return "";
+			      }
+			}
 			// See if client is connected to server.
 			else if(message.equals("#isconnected")) {
 				clientUI.display("Connection to server=" + this.isConnected());
@@ -82,7 +132,7 @@ public class ValdostaClient extends AbstractClient {
 					return "Message sent to server";
 				}
 				catch(IOException e) {
-					return "ERROR - Could not send BlobManager to server";
+					return "ERROR - Could not send message to server";
 				}
 			}
 			return "";

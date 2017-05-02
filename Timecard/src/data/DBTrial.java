@@ -29,6 +29,14 @@ public class DBTrial {
 	{
 		try
 		{
+
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
 
@@ -56,6 +64,14 @@ public class DBTrial {
 	{
 		try
 		{
+
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
 
@@ -70,7 +86,7 @@ public class DBTrial {
 				e.setFirstName(rs.getString("FNAME"));
 				e.setLastName(rs.getString("LNAME"));
 				e.setDeptID(rs.getInt("DEPT_ID"));
-				e.setPay(rs.getDouble("PAY"));
+				e.setPay(rs.getDouble("HOURLY_PAY"));
 				e.setVacationHours(rs.getDouble("VACATION_HOURS"));
 				return e;
 			}
@@ -88,6 +104,14 @@ public class DBTrial {
 	public Department getDepartment(int id){
 		try
 		{
+
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
 
@@ -119,6 +143,14 @@ public class DBTrial {
 	public Timestamps getTimeStamp(int eId,Timestamp in){
 		Timestamps t = new Timestamps();
 		try {
+
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
 			con = DriverManager.getConnection(url,user,password);
 
 			stmt = con.createStatement();
@@ -146,6 +178,14 @@ public class DBTrial {
 	public Timestamps getOutTimeStamp(int eId,Timestamp out){
 		Timestamps t = new Timestamps();
 		try {
+
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
 			con = DriverManager.getConnection(url,user,password);
 
 			stmt = con.createStatement();
@@ -175,16 +215,24 @@ public class DBTrial {
 	public String setOut(int eid, Timestamp t){
 		try
 		{
+
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
-
-			String sql = "SELECT ID FROM timestamp WHERE OUT_TIMESTAMP = '1970-01-01 00:00:01' AND EMPLOYEE_ID = '" +eid+ "'"
-					+ "AND (datediff('"+t+"',IN_TIMESTAMP) = 0) AND IN_TIMESTAMP < '"+ t +"';";
+			String sql = "SELECT ID FROM timestamp WHERE OUT_TIMESTAMP <= '1970-01-01 00:00:01' AND EMPLOYEE_ID = '" +eid+ "' AND IN_TIMESTAMP < '"+ t +
+					"' ORDER BY ID DESC LIMIT 1;";
 			rs = stmt.executeQuery(sql);
 
 			if (rs.next()){
 				int id = rs.getInt("ID");
-				sql = "UPDATE timestamp SET OUT_TIMESTAMP = ? WHERE ID = ?";
+				System.out.println(id);
+				sql = "UPDATE timestamp SET `OUT_TIMESTAMP` = ? WHERE `ID` = ?";
 				pstmt = con.prepareStatement(sql);
 
 				pstmt.setTimestamp(1, t);
@@ -219,6 +267,14 @@ public class DBTrial {
 	public ArrayList<Timestamp> getTimediffs(String type, int eId){
 		ArrayList<Timestamp> retArray = new ArrayList<Timestamp>();
 		try {
+
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
 			con = DriverManager.getConnection(url,user,password);
 
 			stmt = con.createStatement();
@@ -255,6 +311,14 @@ public class DBTrial {
 	public String updateTimestamp(int tId,Timestamp in,Timestamp out, String type){
 		try
 		{
+
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
 
@@ -283,6 +347,14 @@ public class DBTrial {
 	public String insertIn(int eid, Timestamp timestamp, String type){
 		try
 		{
+
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
 
@@ -312,11 +384,19 @@ public class DBTrial {
 		ArrayList<Employee> e = new ArrayList<Employee>();
 		try
 		{
+
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException el) {
+			    // TODO Auto-generated catch block
+			    el.printStackTrace();
+			}
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
 			String sql  = "SELECT * FROM employee";
 			if(deptId != -1){
-				sql = sql + "WHERE `DEPT_ID` = '" +deptId+ "'";
+				sql = sql + " WHERE `DEPT_ID` = '" +deptId+ "'";
 			}
 
 			rs = stmt.executeQuery(sql);
@@ -328,7 +408,7 @@ public class DBTrial {
 				at.setFirstName(rs.getString("FNAME") + " ");
 				at.setLastName(rs.getString("LNAME"));
 				at.setDeptID(rs.getInt("DEPT_ID"));
-				at.setPay(rs.getDouble("PAY"));
+				at.setPay(rs.getDouble("HOURLY_PAY"));
 				at.setVacationHours(rs.getDouble("VACATION_HOURS"));
 
 				e.add(at);
@@ -348,6 +428,14 @@ public class DBTrial {
 		ArrayList<Department> d = new ArrayList<Department>();
 		try
 		{
+
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
 			String sql  = "SELECT * FROM department";
@@ -377,10 +465,18 @@ public class DBTrial {
 	public String addEmployee(String first_name,String last_name, double pay, double vacationHours, int deptId){
 		try
 		{
+
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
 
-			String sql = "INSERT INTO employee (`FNAME`,`LNAME`,`PAY`,`VACATION_HOUR`,`DEPT_ID`) VALUES (?, ?, ?, ?, ?);";
+			String sql = "INSERT INTO employee (`FNAME`,`LNAME`,`HOURLY_PAY`,`VACATION_HOURS`,`DEPT_ID`) VALUES (?, ?, ?, ?, ?);";
 
 			pstmt = con.prepareStatement(sql);
 
@@ -406,6 +502,14 @@ public class DBTrial {
 	public String addDepartment(String name, String location, String classy, int manager_id){
 		try
 		{
+
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
 
@@ -435,6 +539,14 @@ public class DBTrial {
 	public String addTimestamp(int eid, Timestamp in, Timestamp out, String type){
 		try
 		{
+
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
 
