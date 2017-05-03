@@ -65,7 +65,7 @@ public class ValdostaClient extends AbstractClient {
 				}
 				return "";
 			}
-			else if(message.equals("in")){
+			else if(message.equals("#IN")){
 				if(this.isConnected()){
 					try {
 						sendToServer("#IN " + id +"," + System.currentTimeMillis());
@@ -77,7 +77,19 @@ public class ValdostaClient extends AbstractClient {
 					//print to textfile and try to reconnect
 				}
 			}
-			else if(message.equals("out")){
+			else if(message.equals("#cb")){
+				if(this.isConnected()){
+					try {
+						sendToServer("#IN " + id +"," + System.currentTimeMillis() + ",CB");
+					} catch (IOException e) {
+						return "error";
+					}
+				} 
+				else {
+					//print to textfile and try to reconnect
+				}
+			}
+			else if(message.equals("#OUT")){
 				if(this.isConnected()){
 					try {
 						sendToServer("#OUT " + id +"," + System.currentTimeMillis());

@@ -24,7 +24,7 @@ public class DBTest{
 	  System.out.println(test.getEmployee(1000).toString());
 	
 	  System.out.println(test.getDepartment(101).toString());
-	
+	*/
 	  ArrayList<Employee> e = test.getEmployees(-1);
 	
 	  for(Employee emp : e){
@@ -36,13 +36,13 @@ public class DBTest{
 	  for(Employee emp2 : e2){
 	    System.out.println(emp2.toString());
 	  }
-	
+	/*
 	  ArrayList<Department> d = test.getDepartments();
 	  
 	  for(Department dept: d){
 		  System.out.println(dept.toString());
 	  }*/
 	  
-	  System.out.println(test.setOut(1001, new Timestamp(System.currentTimeMillis())));
+	 // System.out.println(test.setOut(1001, new Timestamp(System.currentTimeMillis())));
 	}
 }

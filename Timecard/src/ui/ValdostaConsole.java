@@ -15,12 +15,14 @@ public class ValdostaConsole {
 		public static boolean connected;
 		
 		public static String id;
+		public static loginGUI l = new loginGUI();
+		
 
 		// Instance variables **********************************************
 		/**
 		 * The instance of the client that created this ConsoleChat.
 		 */
-		ValdostaClient client;
+		static ValdostaClient client;
 		
 
 		// Constructors ****************************************************
@@ -44,23 +46,23 @@ public class ValdostaConsole {
 		/**
 		 * This method waits for input from the console.  Once it is
 		 * received, it sends it to the client's message handler.
+		 * @param l 
 		 */
-		public void accept() {
+		public static void accept(String message, String type) {
 			try {
-				BufferedReader fromConsole = new BufferedReader(new InputStreamReader(System.in));
-				String message;
+				//BufferedReader fromConsole = new BufferedReader(new InputStreamReader(System.in));
+				
 				client.handleMessageFromClientUI("#connect", id);
-				message= "#";
+				//message= "#";
 				//keeps looping if message does not contain digits 
-				while(!message.matches("^\\d+$")){
-					System.out.println("Need Login");
-					message = fromConsole.readLine();
+				if(message.matches("^\\d+$")){
+					client.handleMessageFromClientUI("#login " + message, id);
+					id = message;
+				} else if(type != ""){
+					client.handleMessageFromClientUI("#cb", id);
 				}
-				client.handleMessageFromClientUI("#login " + message, id);
-				id = message;
-				while (true) {
-					message = fromConsole.readLine();
-					client.handleMessageFromClientUI(message,id);
+				else {
+					client.handleMessageFromClientUI(message, id);
 				}
 			}
 			catch (Exception ex) {
@@ -75,6 +77,12 @@ public class ValdostaConsole {
 		 */
 		public void display(String message) {
 			System.out.println("> " + message);
+			
+			if (message.contains("Message from server:Logged in")){
+				l.createClockInPopup();
+				
+				
+			}
 		}
 
 		// Class methods ***************************************************
@@ -92,7 +100,12 @@ public class ValdostaConsole {
 	  			host = "localhost";
 	  		}
 	  		ValdostaConsole chat= new ValdostaConsole(host, DEFAULT_PORT);
-	  		chat.accept();  //Wait for console data
+
+	  		l.createLoginPopup();
+	  		
+	  		
+	  		
+	  		//chat.accept();  //Wait for console data
 	  	}
 	
 }

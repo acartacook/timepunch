@@ -262,7 +262,6 @@ public class DBTrial {
 
 			if (rs.next()){
 				int id = rs.getInt("ID");
-				System.out.println(id);
 				sql = "UPDATE timestamp SET `OUT_TIMESTAMP` = ? WHERE `ID` = ?";
 				pstmt = con.prepareStatement(sql);
 
