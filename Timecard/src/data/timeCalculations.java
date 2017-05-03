@@ -47,7 +47,7 @@ public class timeCalculations {
 		 
 		return retval;
 	}
-	
+	//THIS.setTime(THIS.getTime() + shift.getTime());
 	public Timestamp totalHoursSat(String type, int eId){
 		ArrayList<Timestamp> diffs = new ArrayList<Timestamp>();
 		diffs = d.getTimediffs(type, eId ,getSaturday());
