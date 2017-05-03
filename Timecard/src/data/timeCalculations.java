@@ -44,7 +44,7 @@ public class timeCalculations {
 		for(int i=0;i<diffs.size()-1;i++){
 			retval.setTime(retval.getTime() + diffs.get(i).getTime());
 		}
-		
+		 
 		return retval;
 	}
 	

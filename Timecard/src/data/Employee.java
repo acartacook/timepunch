@@ -1,6 +1,9 @@
 package data;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 @SuppressWarnings("serial")
@@ -91,7 +94,11 @@ public class Employee implements Serializable {
 	}
 
 	public String toString(){
-		return this.id + "|" + this.first_name + "|" + this.last_name  + "|"
-		+ this.pay + "|" + this.vacationHours  + "|" + this.deptID;
+		timeCalculations t = new timeCalculations();
+		DBTrial trial = new DBTrial();
+		String deptType = trial.getDepartment(deptID).getclassy();
+		Date reg = new Date(t.totalHours("REG", id).getTime()*1000);
+        DateFormat f = new SimpleDateFormat("HH:mm");
+		return this.id + "|" + this.first_name + "|" + this.last_name  + "|" + this.pay + "|" + this.vacationHours  + "|" + this.deptID + "|" + deptType+ "|" + f.format(reg);
 	}
 }
