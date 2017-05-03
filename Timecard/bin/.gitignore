@@ -1,7 +1,16 @@
-/data/
 /client/
+/common/
+/data/
+<<<<<<< HEAD
+/ui/
+=======
+/client/
+<<<<<<< HEAD
 
 .class
 .settings
 .classpath
 .project
+=======
+>>>>>>> origin/master
+>>>>>>> origin/master
