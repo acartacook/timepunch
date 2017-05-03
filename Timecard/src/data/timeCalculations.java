@@ -18,4 +18,15 @@ public class timeCalculations {
 		
 		return retval;
 	}
+	
+	public Timestamp totalHours(String type, int eId){
+		ArrayList<Timestamp> diffs = new ArrayList<Timestamp>();
+		diffs = d.getTimediffs(type, eId);
+		Timestamp retval = new Timestamp(0L);
+		for(int i=0;i<diffs.size()-1;i++){
+			retval.setTime(retval.getTime() + diffs.get(i).getTime());
+		}
+		
+		return retval;
+	}
 }
