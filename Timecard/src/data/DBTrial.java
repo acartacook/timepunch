@@ -602,6 +602,111 @@ public class DBTrial {
 			 return "error";
 		}
 	}
+	
+	public ArrayList<Integer> getDeptId() throws SQLException, ClassNotFoundException
+	{
+		int id = 0;
+		ArrayList<Integer> deptId = new ArrayList<Integer>();
+		try {
+		    Class.forName("com.mysql.jdbc.Driver");
+		    con = DriverManager.getConnection(url,user,password);
+			stmt = con.createStatement();
+			String sql  = "SELECT DISTINCT DEPT_ID FROM department, employee E WHERE D.ID = E.DEPT_ID";
+
+			rs = stmt.executeQuery(sql);
+
+			while(rs.next())
+			{
+//				Department at = new Department();
+				id = rs.getInt("ID");
+//				at.setManagerID(rs.getInt("MANAGER_ID"));
+//				at.setName(rs.getString("NAME"));
+
+				deptId.add(id);
+			}
+//			return deptId;
+		} 
+		catch(SQLException se)
+		{
+			 return null;
+		}
+		return deptId;
+
+	}
+	
+	public String getDeptType(int dept) throws SQLException, ClassNotFoundException
+	{
+		String id = " ";
+	//	ArrayList<Integer> deptId = new ArrayList<Integer>();
+		try {
+		    Class.forName("com.mysql.jdbc.Driver");
+		    con = DriverManager.getConnection(url,user,password);
+			stmt = con.createStatement();
+			String sql  = "SELECT DISTINCT CLASS FROM department, employee E WHERE D.ID = " + dept;
+
+			rs = stmt.executeQuery(sql);
+
+			while(rs.next())
+			{
+//				Department at = new Department();
+				id = rs.getString("CLASS");
+//				at.setManagerID(rs.getInt("MANAGER_ID"));
+//				at.setName(rs.getString("NAME"));
+
+//				deptId.add(id);
+			}
+//			return deptId;
+		} 
+		catch(SQLException se)
+		{
+			 return null;
+		}
+		return id;
+
+	}
+	
+	public void getReportEmp(){
+		ArrayList<Employee> e = new ArrayList<Employee>();
+		try
+		{
+
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException el) {
+			    // TODO Auto-generated catch block
+			    el.printStackTrace();
+			}
+			con = DriverManager.getConnection(url,user,password);
+			stmt = con.createStatement();
+			String sql  = "SELECT E.ID FNAME, LNAME, DEPT_ID, CLASS, HOUR_TYPE FROM employee E, timestamp T, department D WHERE E.ID = T.ID AND D.ID = E.DEPT_ID ORDER BY LNAME ASC";
+			
+			rs = stmt.executeQuery(sql);
+
+			while(rs.next())
+			{
+				Employee at = new Employee();
+				int empId = rs.getInt("E.ID");
+				String firstName = rs.getString("FNAME");
+				String lastName = rs.getString("LNAME");
+				int dept = rs.getInt("DEPT_ID");
+				String hourType = rs.getString("HOURLY_TYPE");
+				String prodType = rs.getString("CLASS");
+				timeCalculations t = new timeCalculations();
+				Timestamp time = t.totalHours(hourType, empId);
+				at = getEmployee(empId);
+//				double pay = at.pay();
+//				double totalPay = time*pay;
+				System.out.println(empId + "|" + firstName + "|" + lastName + "|" + dept + "|" + hourType + "|" + prodType);
+			}
+		}
+		catch(SQLException se)
+		{
+			 System.out.println(e);
+		}
+	}
+	
+	
 	public static void main(String[] args)
 	{
 		DBTrial db = new DBTrial();

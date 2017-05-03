@@ -1,5 +1,6 @@
 package data;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -25,6 +26,8 @@ public class DBTest{
 	
 	  System.out.println(test.getDepartment(101).toString());
 	
+	*/
+	//Use this for emp
 	  ArrayList<Employee> e = test.getEmployees(-1);
 	
 	  for(Employee emp : e){
@@ -36,13 +39,17 @@ public class DBTest{
 	  for(Employee emp2 : e2){
 	    System.out.println(emp2.toString());
 	  }
-	
+	  //stop
+	/*
 	  ArrayList<Department> d = test.getDepartments();
 	  
 	  for(Department dept: d){
 		  System.out.println(dept.toString());
 	  }*/
 	  
-	  System.out.println(test.setOut(1001, new Timestamp(System.currentTimeMillis())));
+	  //System.out.println(test.setOut(1001, new Timestamp(System.currentTimeMillis())));
+	  
+//	 test.getReportEmp();
+	  
 	}
 }

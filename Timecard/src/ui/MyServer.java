@@ -155,6 +155,36 @@ public class MyServer extends AbstractServer {
 					    ex.printStackTrace();
 					}
 				}
+				//Return report for Emp
+/*				else if(command.startsWith("#reportEmp"))
+				{
+
+					try{
+						DBTrial d = new DBTrial();
+						ArrayList<Integer> ids = d.getDeptId();
+						String production = " ";
+						for(Integer i : ids){
+						//    System.out.println(emp.toString());
+							production = d.getDeptType(i);
+							  ArrayList<Employee> e = d.getEmployees(i);
+							  for(Employee emp : e){
+								  
+								  timeCalculations t = new timeCalculations();
+								Timestamp time =  t.totalHours(emp.getId());
+//								int time2 = Integer.valueOf(t.totalHours(emp.getId()));
+								  String word = emp.getFirstName()  + "|" + emp.getLastName() + "|" + production + "|" + time + "|" + emp.pay(); 
+								    System.out.println(emp.toString());
+								  }							  
+							
+						  }
+						
+					} catch (Exception ex) {
+					    System.out.println("Some sort of error");
+					}
+				}
+				
+*/				
+				
 				else if(command.startsWith("#PRINTTIMESTAMPS"))
 				{
 					//Timestamp t = new Timestamp();

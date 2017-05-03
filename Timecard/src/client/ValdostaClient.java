@@ -1,5 +1,6 @@
 package client;
 
+import ui.ManagerConsole;
 import ui.ValdostaConsole;
 import data.Employee;
 import ocsf.client.AbstractClient;
@@ -14,6 +15,7 @@ public class ValdostaClient extends AbstractClient {
 		 * Reference to the client UI
 		 */
 		ValdostaConsole clientUI;
+		ManagerConsole clientUI2;
 		
 
 		// Constructors ****************************************************
@@ -30,6 +32,14 @@ public class ValdostaClient extends AbstractClient {
 			clientUI.display("Welcome Login now with id");
 			//openConnection();
 		}
+		
+		public ValdostaClient(String host, int port, ManagerConsole clientUI2) throws IOException {
+			super(host, port);
+			this.clientUI2 = clientUI2;
+			clientUI2.display("Type '#connect' to connect to server");
+			//openConnection();
+		}
+
 
 		// Instance methods ************************************************
 
@@ -101,6 +111,8 @@ public class ValdostaClient extends AbstractClient {
 					}
 				}
 			}
+			
+			
 			// Close the connect, but don't quit.
 			else if(message.equals("#close")) {
 				try {
@@ -137,6 +149,8 @@ public class ValdostaClient extends AbstractClient {
 			}
 			return "";
 		}
-	
-
+		
+		
 }
+
+
