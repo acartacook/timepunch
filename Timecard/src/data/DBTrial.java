@@ -431,7 +431,7 @@ public class DBTrial {
 			if(deptId != -1){
 				sql += " WHERE DEPT_ID = " +deptId;
 			}
-			sql += "ORDER BY LNAME DESC;";
+			sql += " ORDER BY LNAME DESC;";
 			rs = stmt.executeQuery(sql);
 
 			while(rs.next())

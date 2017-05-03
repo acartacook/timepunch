@@ -1,4 +1,8 @@
 /client/
 /common/
 /data/
+<<<<<<< HEAD
 /ui/
+=======
+/client/
+>>>>>>> origin/master

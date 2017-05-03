@@ -36,7 +36,7 @@ public class ValdostaClient extends AbstractClient {
 		public ValdostaClient(String host, int port, ManagerConsole clientUI2) throws IOException {
 			super(host, port);
 			this.clientUI2 = clientUI2;
-			clientUI2.display("Type '#connect' to connect to server");
+			clientUI2.display("Welcome login now with id");
 			//openConnection();
 		}
 
@@ -135,16 +135,6 @@ public class ValdostaClient extends AbstractClient {
 				catch(IOException e) {
 			        clientUI.display("ERROR - Cannot close connection.");
 				}
-			}
-			if(message.equals("#connect")) {
-			      try {
-			        this.openConnection();
-					clientUI.display("Connection open.");
-			      }
-			      catch(IOException e) {
-			    	  clientUI.display("ERROR - Cannot establish connection with server" );
-			    	  return "";
-			      }
 			}
 			// See if client is connected to server.
 			else if(message.equals("#isconnected")) {
