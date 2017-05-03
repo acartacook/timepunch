@@ -15,6 +15,10 @@ import static java.time.temporal.TemporalAdjusters.previous;
 public class timeCalculations {
 	private DBTrial d = new DBTrial();
 	
+	public timeCalculations(){
+		
+	}
+	
 	public Timestamp totalHours(int eId){
 		ArrayList<Timestamp> diffs = new ArrayList<Timestamp>();
 		diffs = d.getTimediffs("", eId,null);
@@ -72,7 +76,7 @@ public class timeCalculations {
 		return sat;
 	}
 	
-	public String getTotal(String type, int eId ,Timestamp t){
+	public String getTotal(int eId){
 		ArrayList<Timestamps> diffs = d.getTimestamps(getSaturday(), eId);
 		
 		Timestamp totalHours = new Timestamp(0L);

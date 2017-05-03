@@ -100,6 +100,6 @@ public class Employee implements Serializable {
 		
         DateFormat f = new SimpleDateFormat("HH:mm");
 		return this.id + "|" + this.first_name + "|" + this.last_name  + "|" + this.pay + "|" + this.vacationHours  + "|" 
-        + this.deptID + "|" + deptType+ "|" + f.format(reg);
+        + this.deptID + "|" + deptType;
 	}
 }

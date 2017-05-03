@@ -3,9 +3,12 @@ package ui;
 
 import client.ValdostaClient;
 import data.DBTrial;
+import data.Department;
 import data.Employee;
+import data.timeCalculations;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import client.*;
@@ -34,7 +37,12 @@ public class ManagerConsole {
 				 *
 				 * @param host The host to connect to.
 				 * @param port The port to connect on.
+				 * 
 				 */
+				
+				public ManagerConsole() {
+					
+				}
 				public ManagerConsole(String host, int port) {
 				    try {
 				    	client = new ValdostaClient(host, port, this);
@@ -46,35 +54,21 @@ public class ManagerConsole {
 				}
 		
 		
-				public void display(String message) {
-					System.out.println("> " + message);
+				public void reportEmp()
+				{
+					 DBTrial test = new DBTrial();
+						ArrayList<Employee> e = test.getEmployees(-1);	
+//						timeCalculations time = new timeCalculations();	
+						for(int i=0;i<e.size();i++){
+							  System.out.println(e.get(i).toString());
+						}
+//							  System.out.println(emp.toString());					
 				}
-				
-				public void accept() {
-					try {
-						BufferedReader fromConsole = new BufferedReader(new InputStreamReader(System.in));
-						String message;
-						client.handleMessageFromClientUI("#connect", "");
-						System.out.println("hi");
-					}
-					catch (Exception ex) {
-						System.out.println("ERROR - Unexpected error while reading from console.");
-					}
-				}		
 			
-
+		
 
 	public static void main(String[] args){
-  		String host = "";
-  		try {
-  			host = args[0];
-  		}
-  		catch(ArrayIndexOutOfBoundsException e) {
-  			host = "localhost";
-  		}
-  		ManagerConsole chat= new ManagerConsole(host, DEFAULT_PORT);
-  		
-  		chat.accept();  //Wait for console data
-		
+		ManagerConsole m = new ManagerConsole();
+  		m.reportEmp();
 	}
 }
