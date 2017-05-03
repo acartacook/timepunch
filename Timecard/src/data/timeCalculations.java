@@ -72,6 +72,32 @@ public class timeCalculations {
 		return sat;
 	}
 	
+	public String getTotal(String type, int eId ,Timestamp t){
+		ArrayList<Timestamp> diffs = d.
+		for(int i=0;i<diffs.size();i++){
+			
+			if (type.equals("Regular")){
+				totalHours += shift;
+				regHours += shift;
+				checkOvertime(shift);
+			}
+			else if (type.equals("Vacation")){
+				vacationHours += shift;
+			}
+			else if (type.equals("CallBack")){
+				if (shift < 4){
+					if (checkOT(shift)){
+						CBOT += shift;
+						
+					}
+					else {
+						CBworked += shift;
+					}
+					CBnotWorked += (4 - shift);
+				}
+			}
+		}
+	}
 	public static void main (String[] args){
 		Date d = new Date(getSaturday().getTime()*1000);
         DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.mmm");
