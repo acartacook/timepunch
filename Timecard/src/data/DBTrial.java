@@ -323,7 +323,7 @@ public class DBTrial {
 				}
 			}
 			if(t != null){
-				sql += "AND( IN_TIMESTAMP >= '" + t + "')";
+				sql += "AND( IN_TIMESTAMP >= '" + t + "' AND OUT_TIMESTAMP >= '" + t +"')";
 			}
 
 			rs = stmt.executeQuery(sql);
