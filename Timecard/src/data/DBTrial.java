@@ -295,7 +295,7 @@ public class DBTrial {
 	 * Returns: ArrayList of total hours for each timestamp of specified type and/or from specific employee
 	 * FOR: timeCalculations.java
 	 */
-	public ArrayList<Timestamp> getTimediffs(String type, int eId){
+	public ArrayList<Timestamp> getTimediffs(String type, int eId, Timestamp t){
 		ArrayList<Timestamp> retArray = new ArrayList<Timestamp>();
 		try {
 
@@ -321,6 +321,9 @@ public class DBTrial {
 				} else {
 					sql += "AND EMPLOYEE_ID = '" + eId + "'";
 				}
+			}
+			if(t != null){
+				sql += "AND( IN_TIMESTAMP >= '" + t + "')";
 			}
 
 			rs = stmt.executeQuery(sql);

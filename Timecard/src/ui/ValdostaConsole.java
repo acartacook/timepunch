@@ -51,7 +51,7 @@ public class ValdostaConsole {
 				String message;
 				client.handleMessageFromClientUI("#connect", id);
 				message= "#";
-				//keeps looping if message does not contain digits
+				//keeps looping if message does not contain digits 
 				while(!message.matches("^\\d+$")){
 					System.out.println("Need Login");
 					message = fromConsole.readLine();
