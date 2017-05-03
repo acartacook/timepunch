@@ -97,8 +97,9 @@ public class Employee implements Serializable {
 		timeCalculations t = new timeCalculations();
 		DBTrial trial = new DBTrial();
 		String deptType = trial.getDepartment(deptID).getclassy();
-		Date reg = new Date(t.totalHours("REG", id).getTime()*1000);
+		
         DateFormat f = new SimpleDateFormat("HH:mm");
-		return this.id + "|" + this.first_name + "|" + this.last_name  + "|" + this.pay + "|" + this.vacationHours  + "|" + this.deptID + "|" + deptType+ "|" + f.format(reg);
+		return this.id + "|" + this.first_name + "|" + this.last_name  + "|" + this.pay + "|" + this.vacationHours  + "|" 
+        + this.deptID + "|" + deptType+ "|" + f.format(reg);
 	}
 }

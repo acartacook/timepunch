@@ -54,19 +54,8 @@ public class ManagerConsole {
 					try {
 						BufferedReader fromConsole = new BufferedReader(new InputStreamReader(System.in));
 						String message;
-						client.handleMessageFromClientUI("#connect", id);
-						message= "#";
-						//keeps looping if message does not contain digits
-						while(!message.matches("^\\d+$")){
-							System.out.println("Need Login");
-							message = fromConsole.readLine();
-						}
-						client.handleMessageFromClientUI("#login " + message, id);
-						id = message;
-						while (true) {
-							message = fromConsole.readLine();
-							client.handleMessageFromClientUI(message,id);
-						}
+						client.handleMessageFromClientUI("#connect", "");
+						System.out.println("hi");
 					}
 					catch (Exception ex) {
 						System.out.println("ERROR - Unexpected error while reading from console.");
@@ -75,34 +64,17 @@ public class ManagerConsole {
 			
 
 
-	public static void main(String[] args) {
-				
-
-		Scanner s = new Scanner(System.in);
-		String input = "";
-		while(input != "close"){
-			input = s.nextLine();
-			
-			if(input.startsWith("add")){
-				String data = input.substring(4);
-				String [] str = data.split(",");
-				int eId = Integer.parseInt(str[0]);
-				String fname = str[1];
-				String lname = str[2];
-				Double pay = Double.parseDouble(str[3]);
-				Double vacationHours = Double.parseDouble(str[4]);
-				int deptID = Integer.parseInt(str[5]);
-				//add 1, John Doe, 20.0,40.0,1
-				DBTrial d = new DBTrial();
-				if(d.addEmployee(fname,lname,pay,vacationHours,deptID) != ""){
-					System.out.println(fname + " was added");
-				}
-				else{
-					System.out.println(fname + " was not added");
-				}
-			}
-		}
-		s.close();
+	public static void main(String[] args){
+  		String host = "";
+  		try {
+  			host = args[0];
+  		}
+  		catch(ArrayIndexOutOfBoundsException e) {
+  			host = "localhost";
+  		}
+  		ManagerConsole chat= new ManagerConsole(host, DEFAULT_PORT);
+  		
+  		chat.accept();  //Wait for console data
 		
 	}
 }
