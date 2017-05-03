@@ -458,6 +458,46 @@ public class DBTrial {
 	 * Parameters: X
 	 * Returns: list of all departments
 	 */
+	public ArrayList<Timestamps> getTimestamps(Timestamp t, int eId){
+		ArrayList<Timestamps> d = new ArrayList<Timestamps>();
+		try
+		{
+
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
+			con = DriverManager.getConnection(url,user,password);
+			stmt = con.createStatement();
+			String sql  = "SELECT * FROM timestamps WHERE EMPLOYEE_ID ='" +eId+"' AND( IN_TIMESTAMP >= '" + t +")";
+
+			rs = stmt.executeQuery(sql);
+
+			while(rs.next())
+			{
+				Timestamps at = new Timestamps();
+				at.setID(rs.getInt("ID"));
+				at.setIn(rs.getTimestamp("IN_TIMESTAMP"));
+				at.setOut(rs.getTimestamp("OUT_TIMESTAMP"));
+				at.setEmployeeID(rs.getInt("EMPLOYEE_ID"));
+				at.setType(rs.getString("HOUR_TYPE"));
+
+				d.add(at);
+			}
+		}
+		catch(SQLException se)
+		{
+			 return null;
+		}
+		return d;
+	}
+	/*
+	 * Parameters: X
+	 * Returns: list of all departments
+	 */
 	public ArrayList<Department> getDepartments(){
 		ArrayList<Department> d = new ArrayList<Department>();
 		try
