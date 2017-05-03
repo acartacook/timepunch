@@ -77,7 +77,7 @@ public class MyServer extends AbstractServer {
 						client.close();
 					}
 					catch (IOException e) {
-						e.printStackTrace();
+					    System.out.println("Some sort of error closing");
 					}
 				}
 				//client must be logged in first checked on client side
@@ -114,8 +114,7 @@ public class MyServer extends AbstractServer {
 					        try {
 								oos.close();
 							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
+							    System.out.println("Some sort of error");
 							}
 					    }
 					}
@@ -134,7 +133,7 @@ public class MyServer extends AbstractServer {
 						DBTrial d = new DBTrial();
 						clientMsg = d.setOut(eId, out);
 					} catch (Exception ex) {
-					    ex.printStackTrace();
+					    System.out.println("Some sort of error");
 					}
 				}
 				else if(command.startsWith("#MAN"))

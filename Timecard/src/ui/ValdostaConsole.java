@@ -50,8 +50,14 @@ public class ValdostaConsole {
 				BufferedReader fromConsole = new BufferedReader(new InputStreamReader(System.in));
 				String message;
 				client.handleMessageFromClientUI("#connect", id);
-				message = fromConsole.readLine();
-				client.handleMessageFromClientUI(login(message), id);
+				message= "#";
+				//keeps looping if message does not contain digits
+				while(!message.matches("^\\d+$")){
+					System.out.println("Need Login");
+					message = fromConsole.readLine();
+				}
+				client.handleMessageFromClientUI("#login " + message, id);
+				id = message;
 				while (true) {
 					message = fromConsole.readLine();
 					client.handleMessageFromClientUI(message,id);
@@ -60,13 +66,6 @@ public class ValdostaConsole {
 			catch (Exception ex) {
 				System.out.println("ERROR - Unexpected error while reading from console.");
 			}
-		}
-		private String login(String msg) {
-			if(msg.substring(0) == "#"){
-				return "#needlogin";
-			} 
-			id = msg;
-			return "#login " + msg;
 		}
 
 		/**
