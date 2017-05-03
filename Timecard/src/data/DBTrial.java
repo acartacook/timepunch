@@ -665,7 +665,7 @@ public class DBTrial {
 	}
 	
 	public void getReportEmp(){
-		ArrayList<Employee> e = new ArrayList<Employee>();
+//		ArrayList<Employee> e = new ArrayList<Employee>();
 		try
 		{
 
@@ -693,15 +693,17 @@ public class DBTrial {
 				String prodType = rs.getString("CLASS");
 				timeCalculations t = new timeCalculations();
 				Timestamp time = t.totalHours(hourType, empId);
+				String hourString = time.toString();
+				double hour = Double.parseDouble(hourString);
 				at = getEmployee(empId);
-//				double pay = at.pay();
-//				double totalPay = time*pay;
-				System.out.println(empId + "|" + firstName + "|" + lastName + "|" + dept + "|" + hourType + "|" + prodType);
+				double pay = at.pay();
+				double totalPay = hour*pay;
+				System.out.println(empId + "|" + firstName + "|" + lastName + "|" + dept + "|" + hourType + "|" + hourString + "|" + totalPay + "|" + prodType);
 			}
 		}
 		catch(SQLException se)
 		{
-			 System.out.println(e);
+			 System.out.println(se);
 		}
 	}
 	
