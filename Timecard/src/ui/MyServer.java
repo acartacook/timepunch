@@ -4,9 +4,10 @@ import java.io.*;
 //import java.sql.*;
 import java.sql.Date;
 
-import data.DBTrial;
-import data.Employee;
+import data.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+
 import ocsf.server.*;
 
 /*************************************************
@@ -79,7 +80,7 @@ public class MyServer extends AbstractServer {
 						e.printStackTrace();
 					}
 				}
-
+				//client must be logged in first checked on client side
 				if(command.startsWith("#login")) {
 					String data = command.substring(7);
 					int eId = Integer.parseInt(data);
@@ -120,20 +121,6 @@ public class MyServer extends AbstractServer {
 					}
 
 				}
-					/*try {
-						con = DriverManager.getConnection(url,user,password);
-						String sql = "INSERT INTO timestamp (EMPLOYEE_ID, IN_TIMESTAMP) Values (?,?)" ;
-						pstmt = con.prepareStatement(sql);
-
-						pstmt.setInt(1, eId);
-						pstmt.setString(2,timestamp);
-						pstmt.executeUpdate();
-						clientMsg = "Clocked in";
-					}
-					catch (SQLException e ) {
-						clientMsg = "Error";
-						e.printStackTrace();
-					}*/
 				//This command should insert data into the database. The timestamp database.
 				else if(command.startsWith("#OUT"))
 				{
@@ -150,6 +137,25 @@ public class MyServer extends AbstractServer {
 					    ex.printStackTrace();
 					}
 				}
+				else if(command.startsWith("#MAN"))
+				{
+					String data = command.substring(5);
+					System.out.println(data);
+					String [] strNum = data.split(",");
+					int eId = Integer.parseInt(strNum[0]);
+
+					try{
+						DBTrial d = new DBTrial();
+						ArrayList<Department> depts = d.getManDept(eId);
+						if(depts != null){
+							clientMsg = "You are a manager";
+						} else {
+							clientMsg = "This privilage is for managers only";
+						}
+					} catch (Exception ex) {
+					    ex.printStackTrace();
+					}
+				}
 				else if(command.startsWith("#PRINTTIMESTAMPS"))
 				{
 					//Timestamp t = new Timestamp();
@@ -158,8 +164,7 @@ public class MyServer extends AbstractServer {
 	  	  try {
 					client.sendToClient(clientMsg);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Could not send back message");
 				}
 	  		}
 
@@ -180,7 +185,7 @@ public class MyServer extends AbstractServer {
 				client.sendToClient(msg);
 			}
 			catch (IOException e) {
-				e.printStackTrace();
+				System.out.println("Could not connect to client");
 			}
 			//this.sendToAllClients(msg);
 		}

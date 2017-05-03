@@ -134,7 +134,39 @@ public class DBTrial {
 		}
 		return null;
 	}
+	public ArrayList<Department> getManDept(int eid){
+		try
+		{
 
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
+			con = DriverManager.getConnection(url,user,password);
+			stmt = con.createStatement();
+
+			String sql = "SELECT * FROM department WHERE MANAGER_ID = '"+ eid +"'";
+
+			rs = stmt.executeQuery(sql);
+			ArrayList<Department> depts = new ArrayList<Department>();
+			while(rs.next())
+			{
+				Department d = new Department();
+				 d.setId(rs.getInt("ID"));
+				 d.setManagerID(rs.getInt("MANAGER_ID"));
+				 d.setName(rs.getString("NAME"));
+				 depts.add(d);
+			}
+			return depts;
+		}
+		catch(SQLException se)
+		{
+			return null;
+		}
+	}
 	/*
 	 * Parameters: Employee id and in timestamp
 	 * Returns: timestamps object where eid and timestamp = specified
