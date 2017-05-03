@@ -40,17 +40,17 @@ public class DBTest{
 	}
 	
 	public static void getEmployees(){
-		  ArrayList<Employee> e = test.getEmployees(-1);
+		ArrayList<Employee> e = test.getEmployees(-1);
 			
-		  for(int i=0;i<e.size();i++){
-		    System.out.println(e.get(i).toString());
-		  }
+		for(int i=0;i<e.size();i++){
+		  System.out.println(e.get(i).toString());
+		}
 		System.out.println("\n");
 		  ArrayList<Employee> e2 = test.getEmployees(100);
 		
-		  for(int i=0;i<e2.size();i++){
+		for(int i=0;i<e2.size();i++){
 			    System.out.println(e2.get(i).toString());
-			  }
+		}
 
 	}
 }

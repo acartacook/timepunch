@@ -429,9 +429,9 @@ public class DBTrial {
 			stmt = con.createStatement();
 			String sql  = "SELECT * FROM employee";
 			if(deptId != -1){
-				sql = sql + " WHERE `DEPT_ID` = '" +deptId+ "'";
+				sql += " WHERE DEPT_ID = " +deptId;
 			}
-
+			sql += "ORDER BY LNAME DESC;";
 			rs = stmt.executeQuery(sql);
 
 			while(rs.next())
@@ -445,6 +445,7 @@ public class DBTrial {
 				at.setVacationHours(rs.getDouble("VACATION_HOURS"));
 
 				e.add(at);
+				System.out.println(e.toString());
 			}
 		}
 		catch(SQLException se)
@@ -711,7 +712,11 @@ public class DBTrial {
 	public static void main(String[] args)
 	{
 		DBTrial db = new DBTrial();
-		System.out.println(db.findId(1, "employee"));
+		ArrayList<Employee> e = db.getEmployees(-1);
+		
+		for(int i=0;i<e.size();i++){
+		  System.out.println(e.get(i).toString());
+		}
 	}
 
 }
