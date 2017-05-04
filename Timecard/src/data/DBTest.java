@@ -53,6 +53,8 @@ public class DBTest{
 		for(int i=0;i<e2.size()-1;i++){
 			    System.out.println(e2.get(i).toString());
 		}
+		
+		test.getReportEmp();
 
 	}
 }
