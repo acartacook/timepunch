@@ -78,18 +78,19 @@ public class timeCalculations {
 	
 	public static String getTotal(int eId){
 		ArrayList<Timestamps> diffs = d.getTimestamps(getSaturday(), eId);
-		
-		Timestamp totalHours = new Timestamp(0L);
-		Timestamp hoursWorked = new Timestamp(0L);
-		Timestamp regHours = new Timestamp(0L);
-		Timestamp OT = new Timestamp(0L);
-		Timestamp CBworked = new Timestamp(0L);
-		Timestamp CBnotWorked = new Timestamp(0L);
-		Timestamp CBOT = new Timestamp(0L);
-		Timestamp vacationHours = new Timestamp(0L);
-		Timestamp holiday = new Timestamp(0L);
-		Timestamp juryHours = new Timestamp(0L);
-		Timestamp bereavementHours = new Timestamp(0L);
+
+		@SuppressWarnings("deprecation")
+		long totalHours = -2209057200000L;
+		long hoursWorked = -2209057200000L;
+		long regHours = -2209057200000L;
+		long OT = -2209057200000L;
+		long CBworked = -2209057200000L;
+		long CBnotWorked = -2209057200000L;
+		long CBOT = -2209057200000L;
+		long vacationHours = -2209057200000L;
+		long holiday = -2209057200000L;
+		long juryHours = -2209057200000L;
+		long bereavementHours = -2209057200000L;
 		
 		
 		long leftovers = 0;
@@ -100,72 +101,72 @@ public class timeCalculations {
 			
 			//********************REGULAR PAY********************
 			if (ts.getType().equals("REG")){
-				totalHours.setTime( totalHours.getTime() +shift.getTime());
-				regHours.setTime( regHours.getTime() +shift.getTime());
+				totalHours+=shift.getTime();
+				regHours+=shift.getTime();
 				
 				
 				//Calculates overtime if over 40 regular hours
-				if (regHours.getTime() >= 144000L){
-					leftovers = regHours.getTime() - 144000L;
-					regHours.setTime(regHours.getTime() - leftovers);
-					OT.setTime(leftovers + OT.getTime());
+				if (regHours >= 144000L){
+					leftovers = regHours - 144000L;
+					regHours = regHours - leftovers;
+					OT = leftovers + OT;
 				}
 				
 			}
 			//********************VACATION PAY********************
 			else if (ts.getType().equals("VAC")){
-				vacationHours.setTime(vacationHours.getTime() + shift.getTime());
+				vacationHours +=shift.getTime();
 			}
 			//********************HOLIDAY PAY********************
 			else if (ts.getType().equals("HOL")){
-				holiday.setTime(holiday.getTime() + shift.getTime());
+				holiday+=shift.getTime();
 			}
 			//********************JURY PAY********************
 			else if (ts.getType().equals("JD")){
-				juryHours.setTime(juryHours.getTime() + shift.getTime());
+				juryHours+=shift.getTime();
 			}
 			//********************BEREAVEMENT PAY********************
 			else if (ts.getType().equals("BR")){
-				bereavementHours.setTime(bereavementHours.getTime() + shift.getTime());
+				bereavementHours+=shift.getTime();
 			}
 			
 			//********************CALLBACK PAY********************
 			else if (ts.getType().equals("CB")){
 			
 				if (shift.getTime() < (3600 * 4)){							//if shift is less than 4 hours
-					regHours.setTime(regHours.getTime() + shift.getTime());	//add the shift to the regular hours
+					regHours+=shift.getTime();	//add the shift to the regular hours
 					
-					if (regHours.getTime() >= 144000L){						//if reg hours are greater than 40
-						leftovers = regHours.getTime() - 144000L;
-						regHours.setTime(regHours.getTime() - leftovers);	//this brings it back to 40 hours of regular time
-						CBOT.setTime(CBOT.getTime() + shift.getTime());
+					if (regHours >= 144000L){						//if reg hours are greater than 40
+						leftovers = regHours - 144000L;
+						regHours =(regHours - leftovers);	//this brings it back to 40 hours of regular time
+						CBOT = CBOT + shift.getTime();
 					}
 					
 					if (shift.getTime() < (4 * 3600)){							//if the CB shift is less than 4 hours
-						CBworked.setTime(CBworked.getTime() + shift.getTime());
-						CBnotWorked.setTime(CBnotWorked.getTime() + ((4*3600) - shift.getTime()));	//CBnot worked is 4 hours minus worked hours
+						CBworked+=shift.getTime();
+						CBnotWorked= CBnotWorked + ((4*3600) - shift.getTime());	//CBnot worked is 4 hours minus worked hours
 					}
 					
 					else {
-						CBworked.setTime(CBworked.getTime() + shift.getTime());			//otherwise just add the total shift	
+						CBworked+=shift.getTime();		//otherwise just add the total shift	
 					}
 				}
 			}
 
 		}
 		DateFormat f = new SimpleDateFormat("HH.mm");
-		Double.parseDouble(f.format(new Date(hoursWorked.getTime())));
-		return (Double.parseDouble(f.format(new Date(totalHours.getTime()))) + "|\t\t\t" +
-				Double.parseDouble(f.format(new Date(hoursWorked.getTime()))) + "|\t\t\t" +
-				Double.parseDouble(f.format(new Date(regHours.getTime()))) + "|\t\t" +
-				Double.parseDouble(f.format(new Date(OT.getTime()))) + "|\t\t" +
-				Double.parseDouble(f.format(new Date(CBworked.getTime()))) + "|\t\t\t" +
-				Double.parseDouble(f.format(new Date(CBnotWorked.getTime()))) + "|\t\t\t\t" +
-				Double.parseDouble(f.format(new Date(CBOT.getTime()))) + "|\t\t\t" +
-				Double.parseDouble(f.format(new Date(vacationHours.getTime()))) + "|\t\t" +
-				Double.parseDouble(f.format(new Date(holiday.getTime()))) + "|\t\t" +
-				Double.parseDouble(f.format(new Date(juryHours.getTime()))) + "|\t\t") + 
-				Double.parseDouble(f.format(new Date(totalHours.getTime()))) + "|\t\t";
+		Double.parseDouble(f.format(new Date(hoursWorked)));
+		return (Double.parseDouble(f.format(new Date(totalHours*1000))) + "|" +
+				Double.parseDouble(f.format(new Date(hoursWorked*1000))) + "|" +
+				Double.parseDouble(f.format(new Date(regHours*1000))) + "|" +
+				Double.parseDouble(f.format(new Date(OT*1000))) + "|" +
+				Double.parseDouble(f.format(new Date(CBworked*1000))) + "|" +
+				Double.parseDouble(f.format(new Date(CBnotWorked*1000))) + "|" +
+				Double.parseDouble(f.format(new Date(CBOT*1000))) + "|" +
+				Double.parseDouble(f.format(new Date(vacationHours*1000))) + "|" +
+				Double.parseDouble(f.format(new Date(holiday*1000))) + "|" +
+				Double.parseDouble(f.format(new Date(juryHours*1000))) + "|") + 
+				Double.parseDouble(f.format(new Date(totalHours*1000))) + "|";
 	}
 /*
 	public long checkOvertime(Timestamp regHours, Timestamp shift1){
