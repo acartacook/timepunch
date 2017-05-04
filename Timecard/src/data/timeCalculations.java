@@ -51,7 +51,7 @@ public class timeCalculations {
 		 
 		return retval;
 	}
-	//THIS.setTime(THIS.getTime() + shift.getTime());
+	//tHIS.setTime(THIS.getTime() + shift.getTime());
 	public Timestamp totalHoursSat(String type, int eId){
 		ArrayList<Timestamp> diffs = new ArrayList<Timestamp>();
 		diffs = d.getTimediffs(type, eId ,getSaturday());
@@ -153,18 +153,21 @@ public class timeCalculations {
 			}
 
 		}
-		
-		return ("Total Hours: " + totalHours.getTime() + "\n" +
-				"Total Hours Worked: " + hoursWorked.getTime() + "\n" +
-				"Total Regular Hours: " + regHours.getTime() + "/n" +
-				"Overtime Hours: " + OT.getTime() + "/n" +
-				"Callback Hours Worked: " + CBworked.getTime() + "/n" +
-				"Callback Hours NOT Worked: " + CBnotWorked.getTime() + "/n" +
-				"Callback Hours Considered OT: " + CBOT.getTime() + "/n" +
-				"Vacation Hours: " + vacationHours.getTime() + "/n" +
-				"Holiday Hours: " + holiday.getTime() + "/n" +
-				"Jury Duty Hours: " + juryHours.getTime() + "/n") + 
-				"Bereavement Hours: " + totalHours.getTime() + "/n";
+		DateFormat f = new SimpleDateFormat("HH.mm");
+		Double.parseDouble(f.format(new Date(hoursWorked.getTime())));
+		return ("Total Hours | Total Hours Worked | Total Regular Hours | Overtime Hours | Callback Hours Worked | Callback Hours NOT Worked |"
+				+ "Callback Hours Considered OT | Vacation Hours | Holiday Hours | Jury Duty Hours | Bereavement |\n"
+				+ Double.parseDouble(f.format(new Date(totalHours.getTime()))) + "|\t\t\t" +
+				Double.parseDouble(f.format(new Date(hoursWorked.getTime()))) + "|\t\t\t" +
+				Double.parseDouble(f.format(new Date(regHours.getTime()))) + "|\t\t" +
+				Double.parseDouble(f.format(new Date(OT.getTime()))) + "|\t\t" +
+				Double.parseDouble(f.format(new Date(CBworked.getTime()))) + "|\t\t\t" +
+				Double.parseDouble(f.format(new Date(CBnotWorked.getTime()))) + "|\t\t\t\t" +
+				Double.parseDouble(f.format(new Date(CBOT.getTime()))) + "|\t\t\t" +
+				Double.parseDouble(f.format(new Date(vacationHours.getTime()))) + "|\t\t" +
+				Double.parseDouble(f.format(new Date(holiday.getTime()))) + "|\t\t" +
+				Double.parseDouble(f.format(new Date(juryHours.getTime()))) + "|\t\t") + 
+				Double.parseDouble(f.format(new Date(totalHours.getTime()))) + "|\t\t";
 	}
 /*
 	public long checkOvertime(Timestamp regHours, Timestamp shift1){
