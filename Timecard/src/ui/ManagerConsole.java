@@ -58,9 +58,9 @@ public class ManagerConsole {
 				{
 					 DBTrial test = new DBTrial();
 						ArrayList<Employee> e = test.getEmployees(-1);	
-//						timeCalculations time = new timeCalculations();	
+						timeCalculations time = new timeCalculations();	
 						for(int i=0;i<e.size();i++){
-							  System.out.println(e.get(i).toString());
+							  System.out.println(e.get(i).toString() + timeCalculations.getTotal(e.get(i).getId()));
 						}
 //							  System.out.println(emp.toString());					
 				}

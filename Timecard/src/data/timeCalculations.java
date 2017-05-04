@@ -13,7 +13,7 @@ import static java.time.temporal.TemporalAdjusters.next;
 import static java.time.temporal.TemporalAdjusters.previous;
 
 public class timeCalculations {
-	private DBTrial d = new DBTrial();
+	private static DBTrial d = new DBTrial();
 	
 	public timeCalculations(){
 		
@@ -76,7 +76,7 @@ public class timeCalculations {
 		return sat;
 	}
 	
-	public String getTotal(int eId){
+	public static String getTotal(int eId){
 		ArrayList<Timestamps> diffs = d.getTimestamps(getSaturday(), eId);
 		
 		Timestamp totalHours = new Timestamp(0L);
@@ -94,7 +94,7 @@ public class timeCalculations {
 		
 		long leftovers = 0;
 		
-		for(int i=0;i<diffs.size();i++){
+		for(int i=0;i<diffs.size()-1;i++){
 			Timestamps ts = diffs.get(i);
 			Timestamp shift = new Timestamp(ts.getOut().getTime() - ts.getIn().getTime());
 			
@@ -154,8 +154,8 @@ public class timeCalculations {
 
 		}
 		
-		return ("Total Hours: " + totalHours.getTime() + "/n" +
-				"Total Hours Worked: " + hoursWorked.getTime() + "/n" +
+		return ("Total Hours: " + totalHours.getTime() + "\n" +
+				"Total Hours Worked: " + hoursWorked.getTime() + "\n" +
 				"Total Regular Hours: " + regHours.getTime() + "/n" +
 				"Overtime Hours: " + OT.getTime() + "/n" +
 				"Callback Hours Worked: " + CBworked.getTime() + "/n" +
@@ -179,6 +179,7 @@ public class timeCalculations {
 	public static void main (String[] args){
 		Date d = new Date(getSaturday().getTime()*1000);
         DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.mmm");
-        System.out.println(f.format(d));
+        System.out.println(getTotal(1001));
+        
 	}
 }

@@ -472,7 +472,7 @@ public class DBTrial {
 			}
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
-			String sql  = "SELECT * FROM timestamps WHERE EMPLOYEE_ID ='" +eId+"' AND( IN_TIMESTAMP >= '" + t +")";
+			String sql  = "SELECT * FROM timestamp WHERE EMPLOYEE_ID ='" +eId+"' AND( IN_TIMESTAMP >= '" + t +"') AND OUT_TIMESTAMP >= '1970-01-01 00:00:01'";
 
 			rs = stmt.executeQuery(sql);
 
