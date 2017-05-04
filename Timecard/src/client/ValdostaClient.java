@@ -82,7 +82,7 @@ public class ValdostaClient extends AbstractClient {
 			}
 			else if(message.equals("#IN")){
 				if(this.isConnected()){
-					readFile();
+					//readFile();
 					try {
 						sendToServer("#IN " + id +"," + System.currentTimeMillis());
 					} catch (IOException e) {
@@ -106,7 +106,7 @@ public class ValdostaClient extends AbstractClient {
 			}
 			else if(message.equals("#cb")){
 				if(this.isConnected()){
-					readFile();
+					//readFile();
 					try {
 						sendToServer("#IN " + id +"," + System.currentTimeMillis() + ",CB");
 					} catch (IOException e) {
@@ -130,7 +130,7 @@ public class ValdostaClient extends AbstractClient {
 			}
 			else if(message.equals("#OUT")){
 				if(this.isConnected()){
-					readFile();
+					//readFile();
 					try {
 						sendToServer("#OUT " + id +"," + System.currentTimeMillis());
 					} catch (IOException e) {
@@ -182,6 +182,7 @@ public class ValdostaClient extends AbstractClient {
 			}
 			else{
 				try {
+					//readFile();
 					sendToServer(message);
 					return "Message sent to server";
 				}
