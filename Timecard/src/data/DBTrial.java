@@ -15,13 +15,13 @@ import java.sql.Date;
 
 public class DBTrial {
 
-	private  final String url = "jdbc:mysql://localhost:3306/timepunch";
-	private final String user = "root";
-	private final String password = "root";
+	private  final static String url = "jdbc:mysql://localhost:3306/timepunch";
+	private final static String user = "root";
+	private final static String password = "root";
 
-	private  Connection con = null;
-	private  Statement stmt = null;
-	private  PreparedStatement pstmt= null;
+	private  static Connection con = null;
+	private  static Statement stmt = null;
+	private static PreparedStatement pstmt= null;
 	private static ResultSet rs;
 	private Scanner input = new Scanner(System.in);
 
@@ -100,7 +100,7 @@ public class DBTrial {
 	 * Parameters: department id
 	 * Returns: department object
 	 */
-	public Department getDepartment(int id){
+	public static Department getDepartment(int id){
 		try
 		{
 
@@ -114,7 +114,7 @@ public class DBTrial {
 			con = DriverManager.getConnection(url,user,password);
 			stmt = con.createStatement();
 
-			String sql = "SELECT * FROM department WHERE ID = '"+ id +"'";
+			String sql = "SELECT * FROM department WHERE ID = "+ id;
 
 			rs = stmt.executeQuery(sql);
 
@@ -124,6 +124,7 @@ public class DBTrial {
 				 d.setId(rs.getInt("ID"));
 				 d.setManagerID(rs.getInt("MANAGER_ID"));
 				 d.setName(rs.getString("NAME"));
+				 d.setclassy(rs.getString("CLASS"));
 				 return d;
 			}
 		}
@@ -750,12 +751,8 @@ public class DBTrial {
 	
 	public static void main(String[] args)
 	{
-		DBTrial db = new DBTrial();
-		ArrayList<Employee> e = db.getEmployees(-1);
-		
-		for(int i=0;i<e.size();i++){
-			System.out.println(e.get(i).toString());
-		}
+		Department d = getDepartment(101);
+		System.out.println(d.toString());
 	}
 
 }
