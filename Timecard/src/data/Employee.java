@@ -96,10 +96,10 @@ public class Employee implements Serializable {
 	public String toString(){
 		timeCalculations t = new timeCalculations();
 		DBTrial trial = new DBTrial();
-		String deptType = trial.getDepartment(deptID).getclassy();
+//		String deptType = trial.getDepartment(deptID).getclassy();
 		
         DateFormat f = new SimpleDateFormat("HH:mm");
 		return this.id + "|" + this.first_name + "|" + this.last_name  + "|" + this.pay + "|" + this.vacationHours  + "|" 
-        + this.deptID + "|" + deptType;
+        + this.deptID + "|";
 	}
 }

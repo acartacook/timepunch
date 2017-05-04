@@ -433,7 +433,7 @@ public class DBTrial {
 			}
 			sql += " ORDER BY LNAME ASC";
 			rs = stmt.executeQuery(sql);
-
+			
 			while(rs.next())
 			{
 				Employee at = new Employee();
@@ -754,7 +754,7 @@ public class DBTrial {
 		ArrayList<Employee> e = db.getEmployees(-1);
 		
 		for(int i=0;i<e.size();i++){
-		  System.out.println(e.get(i).toString());
+			System.out.println(e.get(i).toString());
 		}
 	}
 
