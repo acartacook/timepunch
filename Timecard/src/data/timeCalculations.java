@@ -155,9 +155,7 @@ public class timeCalculations {
 		}
 		DateFormat f = new SimpleDateFormat("HH.mm");
 		Double.parseDouble(f.format(new Date(hoursWorked.getTime())));
-		return ("Total Hours | Total Hours Worked | Total Regular Hours | Overtime Hours | Callback Hours Worked | Callback Hours NOT Worked |"
-				+ "Callback Hours Considered OT | Vacation Hours | Holiday Hours | Jury Duty Hours | Bereavement |\n"
-				+ Double.parseDouble(f.format(new Date(totalHours.getTime()))) + "|\t\t\t" +
+		return (Double.parseDouble(f.format(new Date(totalHours.getTime()))) + "|\t\t\t" +
 				Double.parseDouble(f.format(new Date(hoursWorked.getTime()))) + "|\t\t\t" +
 				Double.parseDouble(f.format(new Date(regHours.getTime()))) + "|\t\t" +
 				Double.parseDouble(f.format(new Date(OT.getTime()))) + "|\t\t" +

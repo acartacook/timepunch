@@ -172,7 +172,7 @@ public class DBTrial {
 	 * Returns: timestamps object where eid and timestamp = specified
 	 * FOR: updateTimestamp
 	 */
-	public Timestamps getTimeStamp(int eId,Timestamp in){
+	public static Timestamps getTimeStamp(int id){
 		Timestamps t = new Timestamps();
 		try {
 
@@ -187,15 +187,17 @@ public class DBTrial {
 
 			stmt = con.createStatement();
 
-			String sql = "SELECT ID FROM timestamp WHERE EMPLOYEE_ID = '"+ eId +"' AND IN_TIMESTAMP = '"+ eId +"'";
+			String sql = "SELECT * FROM timestamp WHERE ID = '"+ id +"'";
 
 			rs = stmt.executeQuery(sql);
 
-			rs.next();
-			t.setID(rs.getInt("ID"));
-			t.setEmployeeID(rs.getInt("EMPLOYEE_ID"));
-
-
+			while(rs.next()){
+				t.setID(rs.getInt("ID"));
+				t.setEmployeeID(rs.getInt("EMPLOYEE_ID"));
+				t.setIn(rs.getTimestamp("IN_TIMESTAMP"));
+				t.setOut(rs.getTimestamp("OUT_TIMESTAMP"));
+				t.setType(rs.getString("HOUR_TYPE"));
+			}
 			return t;
 
 		} catch (SQLException e) {
@@ -342,7 +344,7 @@ public class DBTrial {
 	 * Returns: Updated: if timestamp is found and updated
 	 * Use in conjunction with getTimestamp and getOutTimeStamp
 	 */
-	public String updateTimestamp(int tId,Timestamp in,Timestamp out, String type){
+	public static String updateTimestamp(int tId,Timestamp in,Timestamp out, String type){
 		try
 		{
 
@@ -414,7 +416,7 @@ public class DBTrial {
 	 *
 	 * Returns: an Arraylist of all employees(by dept if wanted)
 	 */
-	public ArrayList<Employee> getEmployees(int deptId){
+	public static ArrayList<Employee> getEmployees(int deptId){
 		ArrayList<Employee> e = new ArrayList<Employee>();
 		try
 		{
@@ -494,11 +496,51 @@ public class DBTrial {
 		}
 		return d;
 	}
+	@SuppressWarnings("deprecation")
+	public static ArrayList<Timestamps> getTimestamps(int eId){
+		ArrayList<Timestamps> d = new ArrayList<Timestamps>();
+		try
+		{
+			try {
+			    Class.forName("com.mysql.jdbc.Driver");
+			} 
+			catch (ClassNotFoundException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
+			con = DriverManager.getConnection(url,user,password);
+			stmt = con.createStatement();
+			String sql  = "SELECT * FROM timestamp WHERE EMPLOYEE_ID ='" +eId+"'";
+
+			rs = stmt.executeQuery(sql);
+
+			while(rs.next())
+			{
+				Timestamps at = new Timestamps();
+				at.setID(rs.getInt("ID"));
+				at.setIn(rs.getTimestamp("IN_TIMESTAMP"));
+				Timestamp t = new Timestamp(70, 0, 1, 0, 0, 0, 0);
+				if(!rs.getTimestamp("OUT_TIMESTAMP").equals(new Timestamp(70, 0, 1, 0, 0, 0, 0))){
+					at.setOut(rs.getTimestamp("OUT_TIMESTAMP"));
+					
+				}
+				at.setEmployeeID(rs.getInt("EMPLOYEE_ID"));
+				at.setType(rs.getString("HOUR_TYPE"));
+
+				d.add(at);
+			}
+		}
+		catch(SQLException se)
+		{
+			 return d;
+		}
+		return d;
+	}
 	/*
 	 * Parameters: X
 	 * Returns: list of all departments
 	 */
-	public ArrayList<Department> getDepartments(){
+	public static ArrayList<Department> getDepartments(){
 		ArrayList<Department> d = new ArrayList<Department>();
 		try
 		{

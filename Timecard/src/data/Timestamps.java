@@ -71,7 +71,12 @@ public class Timestamps{
 
 	//timestamp in and out will need to be formatted
 	public String toString(){
-		return this.id + "|" + this.in + "|" + this.out  + "|"
+		String out =  "";
+		if(this.out != null){
+			out = this.out + "";
+		}
+		
+		return this.id + "|" + this.in + "|" + out  + "|"
 		+ this.type + "|" + this.employeeID;
 	}
 }

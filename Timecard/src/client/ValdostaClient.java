@@ -5,8 +5,13 @@ import ui.ValdostaConsole;
 import data.Employee;
 import ocsf.client.AbstractClient;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
+import java.util.Scanner;
 //This is my test
 public class ValdostaClient extends AbstractClient {
 	
@@ -77,6 +82,7 @@ public class ValdostaClient extends AbstractClient {
 			}
 			else if(message.equals("#IN")){
 				if(this.isConnected()){
+					readFile();
 					try {
 						sendToServer("#IN " + id +"," + System.currentTimeMillis());
 					} catch (IOException e) {
@@ -84,11 +90,23 @@ public class ValdostaClient extends AbstractClient {
 					}
 				} 
 				else {
-					//print to textfile and try to reconnect
+					try {
+						PrintWriter p = new PrintWriter(new FileOutputStream(
+							    new File("save.txt"), 
+							    true /* append = true */));
+						
+						p.append("#IN " + id +"," + System.currentTimeMillis() + "\n");
+						
+						p.close();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}	
 				}
 			}
 			else if(message.equals("#cb")){
 				if(this.isConnected()){
+					readFile();
 					try {
 						sendToServer("#IN " + id +"," + System.currentTimeMillis() + ",CB");
 					} catch (IOException e) {
@@ -96,11 +114,23 @@ public class ValdostaClient extends AbstractClient {
 					}
 				} 
 				else {
-					//print to textfile and try to reconnect
+					try {
+						PrintWriter p = new PrintWriter(new FileOutputStream(
+							    new File("save.txt"), 
+							    true /* append = true */));
+						
+						p.append("#IN " + id +"," + System.currentTimeMillis() + ",CB" + "\n");
+						
+						p.close();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 			else if(message.equals("#OUT")){
 				if(this.isConnected()){
+					readFile();
 					try {
 						sendToServer("#OUT " + id +"," + System.currentTimeMillis());
 					} catch (IOException e) {
@@ -108,12 +138,22 @@ public class ValdostaClient extends AbstractClient {
 					}
 				} 
 				else {
-					//print to textfile
 					try {
 				        this.openConnection();
 				     }
 				     catch(IOException e) {
-				    	  //save to txt file here
+				    	 try {
+				    		 PrintWriter p = new PrintWriter(new FileOutputStream(
+									    new File("save.txt"), 
+									    true /* append = true */));
+								
+								p.append("#OUT " + id +"," + System.currentTimeMillis() + "\n");
+								
+								p.close();
+							} catch (FileNotFoundException ep) {
+								// TODO Auto-generated catch block
+								ep.printStackTrace();
+							}
 				    	  return "No connection saved locally";
 				     }
 					try {
@@ -146,13 +186,41 @@ public class ValdostaClient extends AbstractClient {
 					return "Message sent to server";
 				}
 				catch(IOException e) {
-					return "ERROR - Could not send message to server";
+					try {
+						PrintWriter p = new PrintWriter(new FileOutputStream(
+							    new File("save.txt"), 
+							    true /* append = true */));
+						
+						p.append(message + "\n");
+						
+						p.close();
+					} catch (FileNotFoundException ep) {
+						// TODO Auto-generated catch block
+						ep.printStackTrace();
+					}	
 				}
 			}
 			return "";
 		}
 		
-		
+		public void readFile(){
+			try {
+				Scanner s = new Scanner(new File("save.txt"));
+				
+				while(s.hasNext()){
+					try {
+						sendToServer(s.nextLine());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				s.close();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+		}
 }
 
 

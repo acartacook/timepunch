@@ -58,6 +58,9 @@ public class ValdostaConsole {
 				if(message.matches("^\\d+$")){
 					client.handleMessageFromClientUI("#login " + message, id);
 					id = message;
+					if(!client.isConnected()){
+						l.createClockInPopup();
+					}
 				} else if(type != ""){
 					client.handleMessageFromClientUI("#cb", id);
 				}
